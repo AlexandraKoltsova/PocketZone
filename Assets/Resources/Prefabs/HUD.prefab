@@ -1082,6 +1082,7 @@ GameObject:
   - component: {fileID: 1134315532737953273}
   - component: {fileID: 1134315532737953278}
   - component: {fileID: 1134315532737953279}
+  - component: {fileID: 1134315534437890537}
   m_Layer: 5
   m_Name: Shot_Button
   m_TagString: Untagged
@@ -1193,6 +1194,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1134315534437890537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134315532737953277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 995f34434fbe45d46aacf4e120446279, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button:
+    m_key: Shoot
+    value: 0
 --- !u!1 &1134315532925555641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,6 +1221,7 @@ GameObject:
   - component: {fileID: 1134315532925555589}
   - component: {fileID: 1134315532925555642}
   - component: {fileID: 1134315532925555643}
+  - component: {fileID: 1134315534437890536}
   m_Layer: 5
   m_Name: Inventory_Button
   m_TagString: Untagged
@@ -1315,6 +1332,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1134315534437890536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134315532925555641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4107d86bdaba964b8bcaf073e647b74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseButton:
+    m_key: 0
+    value: 0
 --- !u!1 &1134315533071820877
 GameObject:
   m_ObjectHideFlags: 0
@@ -1620,6 +1652,10 @@ PrefabInstance:
     - target: {fileID: 1531213445540486, guid: e0815e227ed46e445b99930271e8942c, type: 3}
       propertyPath: m_Name
       value: Joystick
+      objectReference: {fileID: 0}
+    - target: {fileID: 114282555968907678, guid: e0815e227ed46e445b99930271e8942c, type: 3}
+      propertyPath: isDynamicJoystick
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114282555968907678, guid: e0815e227ed46e445b99930271e8942c, type: 3}
       propertyPath: dynamicJoystickMovementArea

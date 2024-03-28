@@ -1,23 +1,17 @@
+using Infrastructure.States;
+using Logic;
 using Services.Input;
-using UnityEngine;
 
 namespace Infrastructure
 {
     public class Game
     {
         public static IInputService InputService;
-
-        public Game()
-        {
-            RegisternputService();
-        }
+        public GameStateMachine StateMachine;
         
-        private static void RegisternputService()
+        public Game(ICoroutineRunner coroutineRunner, LoadingCurtain curtain)
         {
-            if (Application.isEditor)
-                InputService = new KeyboardInputService();
-            else
-                InputService = new MobileInputService();
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), curtain);
         }
     }
 }

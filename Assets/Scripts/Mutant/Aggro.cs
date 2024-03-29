@@ -4,7 +4,7 @@ namespace Mutant
 {
     public class Aggro : MonoBehaviour
     {
-        [SerializeField] private AggroZoneObserver _triggerObserver;
+        [SerializeField] private ZoneObserver _triggerObserver;
         [SerializeField] private AgentMoveToPlayer _followAgent;
         
         private void Start()

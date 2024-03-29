@@ -54,7 +54,7 @@ namespace Mutant
 
         private bool HeroNotReached()
         {
-            return Vector3.Distance(_agent.transform.position, _playerTransform.position) >= MinimalDistance;
+            return Vector2.Distance(_agent.transform.position, _playerTransform.position) >= MinimalDistance;
         }
         
         private bool HeroExists()

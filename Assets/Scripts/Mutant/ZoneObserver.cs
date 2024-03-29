@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Mutant
 {
     [RequireComponent(typeof(Collider2D))]
-    public class AggroZoneObserver : MonoBehaviour
+    public class ZoneObserver : MonoBehaviour
     {
         public event Action<Collider2D> TriggerEnter;
         public event Action<Collider2D> TriggerExit;

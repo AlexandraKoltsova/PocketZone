@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9157060388356023463}
   - component: {fileID: 1854410979185986842}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: AttackZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5450784538505731432}
   - component: {fileID: 5450784538505731447}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Shoulder_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5450784538687432633}
   - component: {fileID: 5450784538687432632}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5450784538688438206}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5450784538688438207}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.051, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -300,7 +300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5450784538844195277}
   - component: {fileID: 5450784538844195276}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Leg_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,7 +384,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5450784539031064064}
   - component: {fileID: 5450784539031064079}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wrist_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,7 +472,7 @@ GameObject:
   - component: {fileID: 2006161399}
   - component: {fileID: 2567484076255465377}
   - component: {fileID: 5676774599941560430}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,7 +509,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.8}
+  m_Offset: {x: 0, y: 0.15}
   m_Size: {x: 0.4, y: 0.45}
   m_Direction: 0
 --- !u!50 &2873116738199962192
@@ -594,7 +594,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5450784539597137401}
   - component: {fileID: 5450784539597137400}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Shoulder_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -679,7 +679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5450784539785243550}
   - component: {fileID: 5450784539785243549}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -763,7 +763,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5450784540403254819}
   - component: {fileID: 5450784540403254818}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Leg_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -847,7 +847,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5450784540494259256}
   - component: {fileID: 5450784540494260167}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wrist_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}

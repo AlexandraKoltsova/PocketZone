@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Infrastructure.AssetManagement;
 using Services.PersistentProgress;
@@ -12,6 +13,9 @@ namespace Infrastructure.Factory
         public List<ISavedProgressReader> progressReaders { get; } = new List<ISavedProgressReader>();
         public List<ISavedProgress> progressWriters { get; } = new List<ISavedProgress>();
         
+        public event Action PlayerCreated;
+        public GameObject PlayerGameObject { get; set; }
+        
         public GameFactory(IAssetProvider assets)
         {
             _assets = assets;
@@ -25,7 +29,9 @@ namespace Infrastructure.Factory
 
         public GameObject CreatePlayer(GameObject at)
         {
-            return InstantiateRegistered(AssetsAddress.PlayerPrefabPath, at.transform.position);
+            PlayerGameObject = InstantiateRegistered(AssetsAddress.PlayerPrefabPath, at.transform.position);
+            PlayerCreated?.Invoke();
+            return PlayerGameObject;
         }
 
         public void CreateHUD()

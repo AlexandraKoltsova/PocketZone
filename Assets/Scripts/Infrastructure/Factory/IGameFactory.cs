@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Services;
 using Services.PersistentProgress;
@@ -14,5 +15,8 @@ namespace Infrastructure.Factory
         public List<ISavedProgress> progressWriters { get; }
         
         public void Cleanup();
+        
+        public event Action PlayerCreated;
+        public GameObject PlayerGameObject { get; }
     }
 }

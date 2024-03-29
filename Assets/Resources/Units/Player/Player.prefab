@@ -568,6 +568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 4
   _rb: {fileID: 2873116738199962192}
+  _collider: {fileID: 6218404987518934840}
   _mesh: {fileID: 5450784538688438206}
 --- !u!114 &5676774599941560430
 MonoBehaviour:

@@ -1,6 +1,7 @@
 using Cinemachine;
 using Infrastructure.Factory;
 using Logic;
+using Services.PersistentProgress;
 using UnityEngine;
 
 namespace Infrastructure.States
@@ -8,25 +9,28 @@ namespace Infrastructure.States
     public class LoadLevelState : IPayloadedState<string>
     {
         private const string InitialPointTag = "InitialPoint";
-        private const string PlayerPrefabPath = "Units/Player/Player";
-        private const string HUDPrefabPath = "UI/HUD";
         
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
-        private readonly IGameFactory _gameFactory;
         
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain, IGameFactory gameFactory)
+        private readonly IGameFactory _gameFactory;
+        private readonly IPersistentProgressService _progressService;
+        
+        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain, 
+            IGameFactory gameFactory, IPersistentProgressService progressService)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
             _gameFactory = gameFactory;
+            _progressService = progressService;
         }
 
         public void Enter(string sceneName)
         {
             _curtain.Show();
+            _gameFactory.Cleanup();
             _sceneLoader.Load(sceneName, OnLoaded);
         }
 
@@ -37,14 +41,28 @@ namespace Infrastructure.States
 
         private void OnLoaded()
         {
-            GameObject initialPoint = GameObject.FindWithTag(InitialPointTag);
-            GameObject player = _gameFactory.CreateHero(at: initialPoint);
-
-            _gameFactory.CreateHud();
-            
-            CameraFollow(player);
+            InitGameWorld();
+            InformProgressReaders();
             
             _stateMachine.Enter<GameLoopState>();
+        }
+
+        private void InformProgressReaders()
+        {
+            foreach (ISavedProgressReader progressReader in _gameFactory.progressReaders)
+            {
+                progressReader.LoadProgress(_progressService.Progress);
+            }
+        }
+
+        private void InitGameWorld()
+        {
+            GameObject initialPoint = GameObject.FindWithTag(InitialPointTag);
+            GameObject player = _gameFactory.CreatePlayer(at: initialPoint);
+
+            _gameFactory.CreateHUD();
+            
+            CameraFollow(player);
         }
 
         private static void CameraFollow(GameObject player)

@@ -1,4 +1,5 @@
 using Cinemachine;
+using Infrastructure.Factory;
 using Logic;
 using UnityEngine;
 
@@ -13,12 +14,14 @@ namespace Infrastructure.States
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
+        private readonly IGameFactory _gameFactory;
         
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
+        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain, IGameFactory gameFactory)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
+            _gameFactory = gameFactory;
         }
 
         public void Enter(string sceneName)
@@ -35,27 +38,14 @@ namespace Infrastructure.States
         private void OnLoaded()
         {
             GameObject initialPoint = GameObject.FindWithTag(InitialPointTag);
-            
-            GameObject player = Instantiate(PlayerPrefabPath, at: initialPoint.transform.position);
-            Instantiate(HUDPrefabPath);
+            GameObject player = _gameFactory.CreateHero(at: initialPoint);
+
+            _gameFactory.CreateHud();
             
             CameraFollow(player);
             
             _stateMachine.Enter<GameLoopState>();
         }
-
-        private static GameObject Instantiate(string path)
-        {
-            var prefab = Resources.Load<GameObject>(path);
-            return Object.Instantiate(prefab);
-        }
-
-        private static GameObject Instantiate(string path, Vector3 at)
-        {
-            var prefab = Resources.Load<GameObject>(path);
-            return Object.Instantiate(prefab, at, Quaternion.identity);
-        }
-
 
         private static void CameraFollow(GameObject player)
         {

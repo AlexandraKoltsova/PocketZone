@@ -1,5 +1,5 @@
 using DefaultNamespace;
-using Infrastructure;
+using Services;
 using Services.Input;
 using UnityEngine;
 
@@ -16,7 +16,7 @@ namespace Player
 
         private void Awake()
         {
-            _inputService = Game.InputService;
+            _inputService = AllServices.Container.Single<IInputService>();
         }
 
         private void FixedUpdate()

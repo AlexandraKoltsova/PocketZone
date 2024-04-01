@@ -16,13 +16,16 @@ namespace Mutant
 
         private Transform _playerTransform;
         private IGameFactory _gameFactory;
-        
+
+        private void Awake()
+        {
+            _agent.updateRotation = false;
+            _agent.updateUpAxis = false;
+        }
+
         private void Start()
         {
             _gameFactory = AllServices.Container.Single<IGameFactory>();
-            
-            _agent.updateRotation = false;
-            _agent.updateUpAxis = false;
             
             if (HeroExists())
                 InitializeHeroTransform();

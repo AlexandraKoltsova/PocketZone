@@ -1,6 +1,5 @@
 using System.Linq;
-using Infrastructure.Factory;
-using Services;
+using Player;
 using UnityEngine;
 
 namespace Mutant
@@ -10,6 +9,7 @@ namespace Mutant
     {
         [SerializeField] private MutantAnimator _animator;
 
+        [SerializeField] private float _damage = 10f;
         [SerializeField] private float _attackColldown = 3f;
         [SerializeField] private float _cLeavage = 0.5f;
         [SerializeField] private float _effectiveDistance = 0.5f;
@@ -51,6 +51,7 @@ namespace Mutant
             if (Hit(out Collider2D hit))
             {
                 PhysicsDebug.DrawDebug(StartPoint(), _cLeavage, 1);
+                hit.transform.GetComponent<PlayerHealth>().TakeDamage(_damage);
             }
         }
 

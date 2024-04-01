@@ -1,8 +1,8 @@
+using Logic;
 using UnityEngine;
 
 namespace Mutant
 {
-    [RequireComponent(typeof(MutantAttack))]
     public class AttackZone : MonoBehaviour
     {
         [SerializeField] private MutantAttack _attack;
@@ -24,6 +24,12 @@ namespace Mutant
         private void TriggerExit(Collider2D obj)
         {
             _attack.DisableAttack();
+        }
+
+        private void OnDisable()
+        {
+            _triggerObserver.TriggerEnter -= TriggerEnter;
+            _triggerObserver.TriggerExit -= TriggerExit;
         }
     }
 }

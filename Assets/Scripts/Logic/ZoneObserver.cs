@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Mutant
+namespace Logic
 {
     [RequireComponent(typeof(Collider2D))]
     public class ZoneObserver : MonoBehaviour

@@ -9,7 +9,7 @@ namespace Infrastructure.Factory
     public interface IGameFactory : IService
     {
         public GameObject CreatePlayer(GameObject at);
-        public void CreateHUD();
+        public GameObject CreateHUD();
         
         public List<ISavedProgressReader> progressReaders { get; }
         public List<ISavedProgress> progressWriters { get; }

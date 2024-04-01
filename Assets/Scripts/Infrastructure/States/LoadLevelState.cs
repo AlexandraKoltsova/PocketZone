@@ -1,7 +1,9 @@
 using Cinemachine;
 using Infrastructure.Factory;
 using Logic;
+using Player;
 using Services.PersistentProgress;
+using UI.HUD;
 using UnityEngine;
 
 namespace Infrastructure.States
@@ -57,12 +59,23 @@ namespace Infrastructure.States
 
         private void InitGameWorld()
         {
-            GameObject initialPoint = GameObject.FindWithTag(InitialPointTag);
-            GameObject player = _gameFactory.CreatePlayer(at: initialPoint);
-
-            _gameFactory.CreateHUD();
+            GameObject player = InitPlayer();
+            InitHud(player);
             
             CameraFollow(player);
+        }
+
+        private GameObject InitPlayer()
+        {
+            return _gameFactory.CreatePlayer(at: GameObject.FindWithTag(InitialPointTag));
+        }
+
+        private void InitHud(GameObject hero)
+        {
+            GameObject hud = _gameFactory.CreateHUD();
+
+            hud.GetComponentInChildren<HealthController>()
+                .Construct(hero.GetComponent<PlayerHealth>());
         }
 
         private static void CameraFollow(GameObject player)

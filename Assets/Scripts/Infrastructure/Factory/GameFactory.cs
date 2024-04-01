@@ -34,9 +34,9 @@ namespace Infrastructure.Factory
             return PlayerGameObject;
         }
 
-        public void CreateHUD()
+        public GameObject CreateHUD()
         {
-            InstantiateRegistered(AssetsAddress.HUDPrefabPath);
+            return InstantiateRegistered(AssetsAddress.HUDPrefabPath);
         }
         
         private GameObject InstantiateRegistered(string prefabPath, Vector3 at)

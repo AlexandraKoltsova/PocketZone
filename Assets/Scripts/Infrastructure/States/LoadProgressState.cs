@@ -35,7 +35,15 @@ namespace Infrastructure.States
 
         private PlayerProgress NewProgress()
         {
-            return new PlayerProgress(initialLevel: "Main");
+            PlayerProgress playerProgress = new PlayerProgress(initialLevel: "Main");
+
+            playerProgress.Health.MaxHP = 50;
+            playerProgress.Health.ResetHP();
+
+            playerProgress.Stats.Damage = 1f;
+            playerProgress.Stats.DamageRadius = 1f;
+            
+            return playerProgress;
         }
     }
 }

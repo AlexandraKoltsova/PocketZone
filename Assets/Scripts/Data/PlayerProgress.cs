@@ -10,12 +10,14 @@ namespace Data
         public WorldData WorldData;
         public Health Health;
         public Stats Stats;
+        public KillData KillData;
         
         public PlayerProgress(string initialLevel)
         {
             WorldData = new WorldData(initialLevel);
             Health = new Health();
             Stats = new Stats();
+            KillData = new KillData();
         }
     }
 }

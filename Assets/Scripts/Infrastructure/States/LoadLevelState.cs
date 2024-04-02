@@ -1,6 +1,7 @@
 using Cinemachine;
 using Infrastructure.Factory;
 using Logic;
+using Logic.Spawners;
 using Player;
 using Services.PersistentProgress;
 using UI.HUD;
@@ -11,6 +12,7 @@ namespace Infrastructure.States
     public class LoadLevelState : IPayloadedState<string>
     {
         private const string InitialPointTag = "InitialPoint";
+        private const string MutantSpawnerTag = "MutantSpawner";
         
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
@@ -59,23 +61,35 @@ namespace Infrastructure.States
 
         private void InitGameWorld()
         {
+            InitSpawners();
+            
             GameObject player = InitPlayer();
             InitHud(player);
             
             CameraFollow(player);
         }
 
+        private void InitSpawners()
+        {
+            foreach (GameObject spawnerObject in GameObject.FindGameObjectsWithTag(MutantSpawnerTag))
+            {
+                var spawner = spawnerObject.GetComponent<MutantSpawner>();
+                _gameFactory.Register(spawner);
+            }
+        }
+
+
         private GameObject InitPlayer()
         {
             return _gameFactory.CreatePlayer(at: GameObject.FindWithTag(InitialPointTag));
         }
 
-        private void InitHud(GameObject hero)
+        private void InitHud(GameObject player)
         {
             GameObject hud = _gameFactory.CreateHUD();
 
             hud.GetComponentInChildren<HealthController>()
-                .Construct(hero.GetComponent<PlayerHealth>());
+                .Construct(player.GetComponent<IHealth>());
         }
 
         private static void CameraFollow(GameObject player)

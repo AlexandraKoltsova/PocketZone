@@ -9,10 +9,10 @@ namespace Mutant
     {
         [SerializeField] private MutantAnimator _animator;
 
-        [SerializeField] private float _damage = 10f;
-        [SerializeField] private float _attackColldown = 3f;
-        [SerializeField] private float _cLeavage = 0.5f;
-        [SerializeField] private float _effectiveDistance = 0.5f;
+        public float Damage = 10f;
+        public float AttackColldown = 3f;
+        public float CLeavage = 0.5f;
+        public float EffectiveDistance = 0.5f;
 
         private float _currentAttackColldown;
         private bool _isAttacking;
@@ -50,14 +50,14 @@ namespace Mutant
         {
             if (Hit(out Collider2D hit) && hit.TryGetComponent(out IHealth playerHealth))
             {
-                PhysicsDebug.DrawDebug(StartPoint(), _cLeavage, 1);
-                playerHealth.TakeDamage(_damage);
+                PhysicsDebug.DrawDebug(StartPoint(), CLeavage, 1);
+                playerHealth.TakeDamage(Damage);
             }
         }
 
         private bool Hit(out Collider2D hit)
         {
-            int hitCount = Physics2D.OverlapCircleNonAlloc(StartPoint(), _cLeavage, _hits, _layerMask);
+            int hitCount = Physics2D.OverlapCircleNonAlloc(StartPoint(), CLeavage, _hits, _layerMask);
 
             hit = _hits.FirstOrDefault();
 
@@ -66,13 +66,13 @@ namespace Mutant
 
         private Vector2 StartPoint()
         {
-            return new Vector2(transform.position.x * _effectiveDistance, transform.position.y * _effectiveDistance + 1f);
+            return new Vector2(transform.position.x * EffectiveDistance, transform.position.y * EffectiveDistance + 1f);
         }
 
 
         private void OnAttackEnded()
         {
-            _currentAttackColldown = _attackColldown;
+            _currentAttackColldown = AttackColldown;
 
             _isAttacking = false;
         }

@@ -1,6 +1,4 @@
 using DefaultNamespace;
-using Infrastructure.Factory;
-using Services;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,22 +13,16 @@ namespace Mutant
         [SerializeField] private Transform _mesh;
 
         private Transform _playerTransform;
-        private IGameFactory _gameFactory;
+        
+        public void Construct(Transform heroTransform)
+        {
+            _playerTransform = heroTransform;
+        }
 
         private void Awake()
         {
             _agent.updateRotation = false;
             _agent.updateUpAxis = false;
-        }
-
-        private void Start()
-        {
-            _gameFactory = AllServices.Container.Single<IGameFactory>();
-            
-            if (HeroExists())
-                InitializeHeroTransform();
-            else
-                _gameFactory.PlayerCreated += InitializeHeroTransform;
         }
 
         private void Update()
@@ -58,16 +50,6 @@ namespace Mutant
         private bool HeroNotReached()
         {
             return Vector2.Distance(_agent.transform.position, _playerTransform.position) >= MinimalDistance;
-        }
-        
-        private bool HeroExists()
-        {
-            return _gameFactory.PlayerGameObject != null;
-        }
-        
-        private void InitializeHeroTransform()
-        {
-            _playerTransform = _gameFactory.PlayerGameObject.transform;
         }
 
         private bool Initialized()

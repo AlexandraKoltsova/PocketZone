@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 1768938878526289444}
   - component: {fileID: 1744015638}
   - component: {fileID: 84134101637087003}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: AimZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9157060388356023463}
   - component: {fileID: 1854410979185986842}
-  m_Layer: 2
+  m_Layer: 5
   m_Name: AimZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

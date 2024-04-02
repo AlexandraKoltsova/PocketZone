@@ -1,3 +1,4 @@
+using System;
 using Services;
 using Services.Input;
 using UnityEngine;
@@ -8,10 +9,21 @@ namespace Player
     {
         [SerializeField] private AimZone _aimZone;
         [SerializeField] private Transform _aimPoint;
-
+        [SerializeField] private Transform _gunEndPointPosition;
+        
+        private Transform _target;
         private bool _isAiming;
         
         private IInputService _inputService;
+        
+        public event Action<OnShootEvent> OnShoot;
+
+        public class OnShootEvent
+        {
+            public Vector3 GunEndPointPosition;
+            public Vector3 ShootPosition;
+
+        }
         
         private void Awake()
         {
@@ -43,7 +55,8 @@ namespace Player
 
         private void SetTarget(Transform transform)
         {
-            HandleAiming(transform.position);
+            _target = transform;
+            HandleAiming(_target.position);
         }
 
         private void HandleAiming(Vector3 target)
@@ -79,7 +92,11 @@ namespace Player
         {
             if (_inputService.IsAttackButton())
             {
-                Debug.Log("Shoot");
+                OnShoot?.Invoke(new OnShootEvent
+                {
+                    GunEndPointPosition = _gunEndPointPosition.position,
+                    ShootPosition = _target.position,
+                });
             }
         }
 

@@ -40,8 +40,9 @@ namespace Infrastructure.States
             playerProgress.Health.MaxHP = 50;
             playerProgress.Health.ResetHP();
 
-            playerProgress.Stats.Damage = 1f;
-            playerProgress.Stats.DamageRadius = 1f;
+            playerProgress.Stats.Damage = 10f;
+            playerProgress.Stats.Speed = 15f;
+            playerProgress.Stats.DamageRadius = 4.5f;
             
             return playerProgress;
         }

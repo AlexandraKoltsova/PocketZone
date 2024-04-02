@@ -1,4 +1,4 @@
-using Player;
+using Logic;
 using UnityEngine;
 
 namespace UI.HUD
@@ -7,23 +7,30 @@ namespace UI.HUD
     {
         [SerializeField] private HealthBar _healthBar;
         
-        private PlayerHealth _playerHealth;
+        private IHealth _health;
         
-        public void Construct(PlayerHealth health)
+        public void Construct(IHealth health)
         {
-            _playerHealth = health;
-
-            _playerHealth.HealthChanged += UpdateHpBar;
+            _health = health;
+            _health.HealthChanged += UpdateHealthBar;
         }
         
-        private void UpdateHpBar()
+        private void Start()
         {
-            _healthBar.SetValue(_playerHealth.Current, _playerHealth.Max);
+            IHealth health = GetComponent<IHealth>();
+
+            if (health != null)
+                Construct(health);
+        }
+        
+        private void UpdateHealthBar()
+        {
+            _healthBar.SetValue(_health.Current, _health.Max);
         }
         
         private void OnDestroy()
         {
-            _playerHealth.HealthChanged -= UpdateHpBar;
+            _health.HealthChanged -= UpdateHealthBar;
         }
     }
 }

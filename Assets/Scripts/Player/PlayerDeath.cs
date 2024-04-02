@@ -10,6 +10,7 @@ namespace Player
         [SerializeField] private PlayerMovement _movement;
         [SerializeField] private PlayerAnimator _animator;
         [SerializeField] private PlayerHealth _playerHealth;
+        [SerializeField] private PlayerAim _playerAim;
         
         private bool _isDead;
         
@@ -29,6 +30,7 @@ namespace Player
             _isDead = true;
 
             _movement.enabled = false;
+            _playerAim.enabled = false;
             _animator.PlayDeath();
         }
 

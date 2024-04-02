@@ -6,6 +6,7 @@ namespace Data.PlayerStatus
     public class Stats
     {
         public float Damage;
+        public float Speed;
         public float DamageRadius;
     }
 }

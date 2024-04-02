@@ -1,5 +1,5 @@
 using System.Linq;
-using Player;
+using Logic;
 using UnityEngine;
 
 namespace Mutant
@@ -48,10 +48,10 @@ namespace Mutant
 
         private void OnAttack()
         {
-            if (Hit(out Collider2D hit))
+            if (Hit(out Collider2D hit) && hit.TryGetComponent(out IHealth playerHealth))
             {
                 PhysicsDebug.DrawDebug(StartPoint(), _cLeavage, 1);
-                hit.transform.GetComponent<PlayerHealth>().TakeDamage(_damage);
+                playerHealth.TakeDamage(_damage);
             }
         }
 
@@ -84,7 +84,6 @@ namespace Mutant
 
         private void StartAttack()
         {
-            //transform.LookAt(_playerTransform);
             _animator.PlayAttack();
 
             _isAttacking = true;

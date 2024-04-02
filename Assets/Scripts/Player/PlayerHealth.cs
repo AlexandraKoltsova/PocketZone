@@ -1,17 +1,18 @@
 using System;
 using Data;
 using Data.PlayerStatus;
+using Logic;
 using Services.PersistentProgress;
 using UnityEngine;
 
 namespace Player
 {
     [RequireComponent(typeof(PlayerAnimator))]
-    public class PlayerHealth : MonoBehaviour, ISavedProgress
+    public class PlayerHealth : MonoBehaviour, ISavedProgress, IHealth
     {
         [SerializeField] private PlayerAnimator _animator;
 
-        public Action HealthChanged;
+        public event  Action HealthChanged;
         private Health _health;
 
         public float Current

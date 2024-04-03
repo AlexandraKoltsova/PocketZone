@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Infrastructure.AssetManagement;
 using Logic;
+using Logic.Spawners;
 using Mutant;
 using Services.PersistentProgress;
+using Services.Randomizer;
 using Services.StaticData;
 using StaticData;
 using UI.HUD;
@@ -15,16 +17,18 @@ namespace Infrastructure.Factory
     {
         private readonly IAssetProvider _assets;
         private readonly IStaticDataService _staticData;
-
+        private readonly IRandomService _randomService;
+        
         public List<ISavedProgressReader> progressReaders { get; } = new List<ISavedProgressReader>();
         public List<ISavedProgress> progressWriters { get; } = new List<ISavedProgress>();
         
         private GameObject PlayerGameObject { get; set; }
         
-        public GameFactory(IAssetProvider assets, IStaticDataService staticData)
+        public GameFactory(IAssetProvider assets, IStaticDataService staticData, IRandomService randomService)
         {
             _assets = assets;
             _staticData = staticData;
+            _randomService = randomService;
         }
 
         public void Cleanup()
@@ -49,7 +53,7 @@ namespace Infrastructure.Factory
             MutantStaticData mutantData = _staticData.ForMutant(TypeId);
 
             GameObject mutantDataPrefab = mutantData.Prefab;
-            Vector3 parentPosition = parent.position;
+            Vector3 parentPosition = _randomService.RandomZone(parent.position);
             GameObject mutant = Object.Instantiate(mutantDataPrefab, parentPosition, Quaternion.identity, parent);
 
             IHealth health = mutant.GetComponent<IHealth>();
@@ -68,6 +72,16 @@ namespace Infrastructure.Factory
 
             return mutant;
         }
+        
+        public void CreateSpawner(Vector3 at, string spawnerId, MutantTypeId mutantTypeId)
+        {
+            MutantSpawner spawner = InstantiateRegistered(AssetsAddress.SpawnerPrefabPath, at).GetComponent<MutantSpawner>();
+
+            spawner.Construct(this);
+            spawner.Id = spawnerId;
+            spawner.MutantTypeId = mutantTypeId;
+        }
+
         
         public void Register(ISavedProgressReader progressReader)
         {

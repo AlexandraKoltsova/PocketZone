@@ -5,6 +5,7 @@ using Logic;
 using Services;
 using Services.PersistentProgress;
 using Services.SaveLoad;
+using Services.StaticData;
 
 namespace Infrastructure.States
 {
@@ -25,7 +26,8 @@ namespace Infrastructure.States
                 
                 [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain, 
                     services.Single<IGameFactory>(), 
-                    services.Single<IPersistentProgressService>()),
+                    services.Single<IPersistentProgressService>(),
+                    services.Single<IStaticDataService>()),
                 
                 [typeof(GameLoopState)] = new GameLoopState(this),
             };

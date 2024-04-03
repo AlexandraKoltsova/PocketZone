@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 439863817}
   - component: {fileID: 439863819}
   - component: {fileID: 439863818}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AttackZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 444806183}
   - component: {fileID: 444806185}
   - component: {fileID: 444806184}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 481429705}
   - component: {fileID: 481429707}
   - component: {fileID: 481429706}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,7 +231,7 @@ GameObject:
   - component: {fileID: 847853006}
   - component: {fileID: 847853008}
   - component: {fileID: 847853007}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Current
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 1605774985}
   - component: {fileID: 1605774986}
   - component: {fileID: 3718922294538080104}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AggroZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +367,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1608172778}
   - component: {fileID: 1608172779}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -476,7 +476,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7970970086997568258}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -519,7 +519,8 @@ GameObject:
   - component: {fileID: 458729383}
   - component: {fileID: 1656003436}
   - component: {fileID: 8961826143414619538}
-  m_Layer: 0
+  - component: {fileID: 1863917450882103181}
+  m_Layer: 7
   m_Name: BazeMutant
   m_TagString: Mutant
   m_Icon: {fileID: 0}
@@ -673,10 +674,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 8691725065967642669}
-  _damage: 10
-  _attackColldown: 3
-  _cLeavage: 1.5
-  _effectiveDistance: 1
+  Damage: 10
+  AttackColldown: 3
+  CLeavage: 0.5
+  EffectiveDistance: 0.5
 --- !u!114 &5386151815142834421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,6 +721,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: {fileID: 458729383}
   _animator: {fileID: 8691725065967642669}
+  _aggro: {fileID: 2438876547388850799}
+  _agent: {fileID: 762117586}
+  _agentMove: {fileID: 762117587}
 --- !u!114 &8961826143414619538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,3 +737,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 1608172779}
+--- !u!114 &1863917450882103181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5727625608034713750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67105608b3b04ed09580b10de7cc10f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: BazeMutant_c05b456f-a817-46a5-8bf0-5c7b0a533514

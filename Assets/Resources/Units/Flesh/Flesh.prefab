@@ -451,6 +451,10 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 0.9
       objectReference: {fileID: 0}
+    - target: {fileID: 1863917450882103181, guid: 3be8e1335dcb0a04ab77cf47461be397, type: 3}
+      propertyPath: Id
+      value: Flesh_185b44c2-7c4a-4c77-92b4-f0e1d1f78af7
+      objectReference: {fileID: 0}
     - target: {fileID: 5727625608034713745, guid: 3be8e1335dcb0a04ab77cf47461be397, type: 3}
       propertyPath: m_RootOrder
       value: 0

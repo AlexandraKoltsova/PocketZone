@@ -6,7 +6,6 @@ TagManager:
   tags:
   - InitialPoint
   - Mutant
-  - MutantSpawner
   layers:
   - Default
   - TransparentFX

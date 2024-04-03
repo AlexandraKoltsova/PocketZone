@@ -628,6 +628,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 1863917450882103181, guid: 3be8e1335dcb0a04ab77cf47461be397, type: 3}
+      propertyPath: Id
+      value: Zombie_8c52d060-a770-4876-9705-dadca963f601
+      objectReference: {fileID: 0}
     - target: {fileID: 4462892103371261643, guid: 3be8e1335dcb0a04ab77cf47461be397, type: 3}
       propertyPath: m_Layer
       value: 7

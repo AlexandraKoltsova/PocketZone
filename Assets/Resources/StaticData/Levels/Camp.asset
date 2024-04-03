@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5793d36b1b442e59385d55a76b01f71, type: 3}
+  m_Name: Camp
+  m_EditorClassIdentifier: 
+  LevelKey: Main
+  MutantSpawners:
+  - Id: Main_5c55bbb4-d0a9-4ab9-bef7-191b383c1153
+    MutantTypeId: 10
+    Position: {x: 2, y: -6, z: 0}
+  - Id: Main_fed7e657-6998-4f2d-88f5-7affbbf9c495
+    MutantTypeId: 0
+    Position: {x: 18, y: -3, z: 0}
+  - Id: Main_a5f8221e-7846-405a-93d4-037f18a32172
+    MutantTypeId: 0
+    Position: {x: 9, y: 5, z: 0}

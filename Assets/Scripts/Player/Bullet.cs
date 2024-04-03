@@ -33,9 +33,7 @@ namespace Player
         {
             if (obj.TryGetComponent(out IHealth mutantHealth))
             {
-                Debug.Log(_damage);
                 mutantHealth.TakeDamage(_damage);
-                
                 gameObject.SetActive(false);
             }
         }

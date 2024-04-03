@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Editor
 {
-    [CustomEditor(typeof(MutantSpawner))]
-    public class SpawnerEditor : UnityEditor.Editor
+    [CustomEditor(typeof(SpawnerMarker))]
+    public class SpawnerMarkerEditor : UnityEditor.Editor
     {
         [DrawGizmo(GizmoType.Active | GizmoType.Pickable | GizmoType.NonSelected)]
-        public static void RenderCustomGizmo(MutantSpawner spawner, GizmoType gizmo)
+        public static void RenderCustomGizmo(SpawnerMarker spawner, GizmoType gizmo)
         {
             Gizmos.color = Color.yellow;
             

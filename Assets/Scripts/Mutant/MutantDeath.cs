@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Mutant
 {
@@ -8,8 +9,12 @@ namespace Mutant
     {
         [SerializeField] private MutantHealth _health;
         [SerializeField] private MutantAnimator _animator;
+        [SerializeField] private Aggro _aggro;
+        [SerializeField] private NavMeshAgent _agent;
+        [SerializeField] private AgentMoveToPlayer _agentMove;
 
         public event Action Happened;
+        public event Action<GameObject> OnDead;
 
         private void Start()
         {
@@ -28,7 +33,12 @@ namespace Mutant
         {
             _health.HealthChanged -= HealthChanged;
 
+            _agentMove.enabled = false;
+            _aggro.enabled = false;
             _animator.PlayDeath();
+
+            OnDead?.Invoke(gameObject);
+            
             StartCoroutine(DestroyTimer());
 
             Happened?.Invoke();

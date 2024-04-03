@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Data;
 using Data.PlayerStatus;
 using Logic;
+using Mutant;
 using Services.PersistentProgress;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace Player
         [SerializeField] private ZoneObserver _triggerObserver;
         [SerializeField] private CircleCollider2D _collider;
         
-        private List<Transform> _targetsList = new List<Transform>();
+        private List<UniqueId> _targetsList = new List<UniqueId>();
         private Transform _currentTarget;
         
         private float _minDistance = Mathf.Infinity;
@@ -41,6 +42,8 @@ namespace Player
 
         private void Update()
         {
+            Debug.Log(_targetsList.Count);
+            
             if (_targetsList.Count == 0)
             {
                 TargetDisable?.Invoke();
@@ -62,13 +65,14 @@ namespace Player
         {
             for (int i = 0; i < _targetsList.Count; i++)
             {
-                var distance = Vector3.Distance(_targetsList[i].position, transform.position);
+                Vector3 position = _targetsList[i].gameObject.transform.position;
+                float distance = Vector3.Distance(position, transform.position);
 
                 if (distance < _minDistance)
                 {
                     _minDistance = distance;
                     
-                    return _targetsList[i];
+                    return _targetsList[i].gameObject.transform;
                 }
             }
 
@@ -77,17 +81,45 @@ namespace Player
 
         private void TriggerEnter(Collider2D obj)
         {
-            if (obj.TryGetComponent(out IHealth mutantHealth))
+            if (obj.TryGetComponent(out UniqueId mutantId))
             {
-                _targetsList.Add(obj.transform);
+                if (_targetsList.Exists(t => t == mutantId))
+                {
+                    return;
+                }
+
+                _targetsList.Add(mutantId);
+                mutantId.GetComponent<MutantDeath>().OnDead += MutantOnDead;
+            }
+        }
+
+        private void MutantOnDead(GameObject mutant)
+        {
+            for (int i = 0; i < _targetsList.Count; i++)
+            {
+                if (_targetsList[i].Id == mutant.GetComponent<UniqueId>().Id)
+                {
+                    _targetsList.Remove(_targetsList[i]);
+                    _currentTarget = null;
+                    _minDistance = Mathf.Infinity;
+                }
             }
         }
 
         private void TriggerExit(Collider2D obj)
         {
-            if (obj.TryGetComponent(out IHealth mutantHealth))
+            if (obj.TryGetComponent(out UniqueId mutantId))
             {
-                _targetsList.Remove(obj.transform);
+                for (int i = 0; i < _targetsList.Count; i++)
+                {
+                    if (_targetsList[i].Id == mutantId.Id)
+                    {
+                        _targetsList[i].GetComponent<MutantDeath>().OnDead -= MutantOnDead;
+                        _targetsList.Remove(_targetsList[i]);
+                        _currentTarget = null;
+                        _minDistance = Mathf.Infinity;
+                    }
+                }
             }
         }
 

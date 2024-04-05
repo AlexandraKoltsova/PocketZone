@@ -2,23 +2,33 @@ using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(PlayerHealth))]
-    [RequireComponent(typeof(PlayerMovement))]
-    [RequireComponent(typeof(PlayerAnimator))]
     public class PlayerDeath : MonoBehaviour
     {
-        [SerializeField] private PlayerMovement _movement;
-        [SerializeField] private PlayerAnimator _animator;
-        [SerializeField] private PlayerHealth _playerHealth;
-        [SerializeField] private PlayerAim _playerAim;
+        private PlayerAnimator _animator;
+        private PlayerHealth _playerHealth;
         
         private bool _isDead;
+
+        public void Init(PlayerAnimator animator, PlayerHealth playerHealth)
+        {
+            _animator = animator;
+            _playerHealth = playerHealth;
+        }
         
-        private void Start()
+        public void Startup()
         {
             _playerHealth.HealthChanged += HealthChanged;
         }
 
+        public bool PlayerDead()
+        {
+            if (_isDead)
+            {
+                return true;
+            }
+            return false;
+        }
+        
         private void HealthChanged()
         {
             if (!_isDead && _playerHealth.Current <= 0)
@@ -28,9 +38,6 @@ namespace Player
         private void Die()
         {
             _isDead = true;
-
-            _movement.enabled = false;
-            _playerAim.enabled = false;
             _animator.PlayDeath();
         }
 

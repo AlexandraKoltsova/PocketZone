@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelKey: Main
   MutantSpawners:
-  - Id: Main_5c55bbb4-d0a9-4ab9-bef7-191b383c1153
-    MutantTypeId: 10
-    Position: {x: 2, y: -6, z: 0}
-  - Id: Main_fed7e657-6998-4f2d-88f5-7affbbf9c495
-    MutantTypeId: 0
-    Position: {x: 18, y: -3, z: 0}
   - Id: Main_a5f8221e-7846-405a-93d4-037f18a32172
     MutantTypeId: 0
     Position: {x: 9, y: 5, z: 0}
+  - Id: Main_fed7e657-6998-4f2d-88f5-7affbbf9c495
+    MutantTypeId: 0
+    Position: {x: 18, y: -3, z: 0}
+  - Id: Main_5c55bbb4-d0a9-4ab9-bef7-191b383c1153
+    MutantTypeId: 10
+    Position: {x: 3, y: -7, z: 0}

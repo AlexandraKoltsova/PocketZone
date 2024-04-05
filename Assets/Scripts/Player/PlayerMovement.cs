@@ -1,7 +1,6 @@
 using DefaultNamespace;
 using Data;
 using Data.Position;
-using Services;
 using Services.Input;
 using Services.PersistentProgress;
 using Services.SaveLoad;
@@ -10,25 +9,34 @@ using UnityEngine.SceneManagement;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : MonoBehaviour, ISavedProgress
     {
-        [SerializeField] private float _movementSpeed = 4f;
-        [SerializeField] private Rigidbody2D _rb;
-        [SerializeField] private Collider2D _collider;
-        [SerializeField] private Transform _mesh;
+        private float _movementSpeed = 4f;
+        
+        private Rigidbody2D _rb;
+        private Collider2D _collider;
+        private Transform _mesh;
         
         private IInputService _inputService;
         private ISaveLoadService _saveLoadService;
 
-        private void Awake()
+        public void Init(IInputService inputService, ISaveLoadService saveLoadService, Rigidbody2D rb, Collider2D collider, Transform mesh, float movementSpeed)
         {
-            _inputService = AllServices.Container.Single<IInputService>();
-            _saveLoadService = AllServices.Container.Single<ISaveLoadService>();
+            _inputService = inputService;
+            _saveLoadService = saveLoadService;
+            _rb = rb;
+            _collider = collider;
+            _mesh = mesh;
+            _movementSpeed = movementSpeed;
         }
 
-        private void FixedUpdate()
+        public void FixedTick(bool canMove)
         {
+            if (!canMove)
+            {
+                return;
+            }
+            
             Vector2 movementVector;
             
             if (_inputService.Axis.sqrMagnitude > Constants.Epsilon)

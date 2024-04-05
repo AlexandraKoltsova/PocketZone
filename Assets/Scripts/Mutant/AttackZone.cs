@@ -5,10 +5,16 @@ namespace Mutant
 {
     public class AttackZone : MonoBehaviour
     {
-        [SerializeField] private MutantAttack _attack;
-        [SerializeField] private ZoneObserver _triggerObserver;
+        private MutantAttack _attack;
+        private ZoneObserver _triggerObserver;
 
-        private void Start()
+        public void Init(MutantAttack attack, ZoneObserver triggerObserver)
+        {
+            _attack = attack;
+            _triggerObserver = triggerObserver;
+        }
+        
+        public void Startup()
         {
             _triggerObserver.TriggerEnter += TriggerEnter;
             _triggerObserver.TriggerExit += TriggerExit;

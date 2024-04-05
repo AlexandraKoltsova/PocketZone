@@ -3,16 +3,20 @@ using UnityEngine.AI;
 
 namespace Mutant
 {
-    [RequireComponent(typeof(NavMeshAgent))]
-    [RequireComponent(typeof(MutantAnimator))]
     public class AnimateAlongAgent : MonoBehaviour
     {
         private const float MinimalVeloсity = 0.1f;
 
-        [SerializeField] private NavMeshAgent _agent;
-        [SerializeField] private MutantAnimator _animator;
+        private NavMeshAgent _agent;
+        private MutantAnimator _animator;
 
-        public void Update()
+        public void Init(NavMeshAgent agent, MutantAnimator animator)
+        {
+            _agent = agent;
+            _animator = animator;
+        }  
+        
+        public void Tick()
         {
             if (ShouldMove())
                 _animator.Move();

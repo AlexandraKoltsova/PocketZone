@@ -7,10 +7,9 @@ using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(PlayerAnimator))]
     public class PlayerHealth : MonoBehaviour, ISavedProgress, IHealth
     {
-        [SerializeField] private PlayerAnimator _animator;
+        private PlayerAnimator _animator;
 
         public event  Action HealthChanged;
         private Health _health;
@@ -32,6 +31,11 @@ namespace Player
         {
             get => _health.MaxHP;
             set => _health.MaxHP = value;
+        }
+
+        public void Init(PlayerAnimator animator)
+        {
+            _animator = animator;
         }
         
         public void LoadProgress(PlayerProgress progress)

@@ -23,6 +23,7 @@ namespace Infrastructure.Factory
         public List<ISavedProgress> progressWriters { get; } = new List<ISavedProgress>();
         
         private GameObject PlayerGameObject { get; set; }
+        private int _mutantId = 1;
         
         public GameFactory(IAssetProvider assets, IStaticDataService staticData, IRandomService randomService)
         {
@@ -56,6 +57,10 @@ namespace Infrastructure.Factory
             Vector3 parentPosition = _randomService.RandomZone(parent.position);
             GameObject mutant = Object.Instantiate(mutantDataPrefab, parentPosition, Quaternion.identity, parent);
 
+            MutantCharacter mutantCharacter = mutant.GetComponent<MutantCharacter>();
+            mutantCharacter.MutantId = _mutantId;
+            _mutantId++;
+            
             IHealth health = mutant.GetComponent<IHealth>();
             health.Current = mutantData.Hp;
             health.Max = mutantData.Hp;

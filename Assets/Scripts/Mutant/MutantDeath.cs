@@ -7,16 +7,25 @@ namespace Mutant
 {
     public class MutantDeath : MonoBehaviour
     {
-        [SerializeField] private MutantHealth _health;
-        [SerializeField] private MutantAnimator _animator;
-        [SerializeField] private Aggro _aggro;
-        [SerializeField] private NavMeshAgent _agent;
-        [SerializeField] private AgentMoveToPlayer _agentMove;
+        private MutantHealth _health;
+        private MutantAnimator _animator;
+        private Aggro _aggro;
+        private NavMeshAgent _agent;
+        private AgentMoveToPlayer _agentMove;
 
         public event Action Happened;
-        public event Action<GameObject> OnDead;
-
-        private void Start()
+        public event Action OnDead;
+        
+        public void Init(MutantHealth health, MutantAnimator animator, Aggro aggro, NavMeshAgent agent, AgentMoveToPlayer agentMove)
+        {
+            _health = health;
+            _animator = animator;
+            _aggro = aggro;
+            _agent = agent;
+            _agentMove = agentMove;
+        }  
+        
+        public void Startup()
         {
             _health.HealthChanged += HealthChanged;
         }
@@ -37,7 +46,7 @@ namespace Mutant
             _aggro.enabled = false;
             _animator.PlayDeath();
 
-            OnDead?.Invoke(gameObject);
+            OnDead?.Invoke();
             
             StartCoroutine(DestroyTimer());
 

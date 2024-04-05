@@ -4,29 +4,36 @@ using UnityEngine.AI;
 
 namespace Mutant
 {
-    [RequireComponent(typeof(NavMeshAgent))]
     public class AgentMoveToPlayer : MonoBehaviour
     {
         private const float MinimalDistance = 1;
 
-        [SerializeField] private NavMeshAgent _agent;
-        [SerializeField] private Transform _mesh;
+        private NavMeshAgent _agent;
+        private Transform _mesh;
 
         private Transform _playerTransform;
         
-        public void Construct(Transform heroTransform)
+        public void Construct(Transform playerTransform)
         {
-            _playerTransform = heroTransform;
+            _playerTransform = playerTransform;
         }
 
-        private void Awake()
+        public void Init(NavMeshAgent agent, Transform mesh)
         {
+            _agent = agent;
+            _mesh = mesh;
+            
             _agent.updateRotation = false;
             _agent.updateUpAxis = false;
         }
 
-        private void Update()
+        public void Tick(bool canMove)
         {
+            if (!canMove)
+            {
+                return;
+            }
+            
             if (Initialized() && HeroNotReached())
             {
                 _agent.destination = _playerTransform.position;

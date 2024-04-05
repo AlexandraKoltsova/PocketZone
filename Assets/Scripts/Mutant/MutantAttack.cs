@@ -4,10 +4,9 @@ using UnityEngine;
 
 namespace Mutant
 {
-    [RequireComponent(typeof(MutantAnimator))]
     public class MutantAttack : MonoBehaviour
     {
-        [SerializeField] private MutantAnimator _animator;
+        private MutantAnimator _animator;
 
         public float Damage = 10f;
         public float AttackColldown = 3f;
@@ -31,12 +30,14 @@ namespace Mutant
             _attackIsActive = false;
         }
 
-        private void Awake()
+        public void Init(MutantAnimator animator)
         {
+            _animator = animator;
+            
             _layerMask = 1 << LayerMask.NameToLayer("Player");
         }
 
-        private void Update()
+        public void Tick()
         {
             UpdateCooldown();
 

@@ -4,17 +4,20 @@ using UnityEngine;
 
 namespace Mutant
 {
-    [RequireComponent(typeof(MutantHealth))]
     public class MutantHealth : MonoBehaviour, IHealth
     {
-        [SerializeField] private MutantAnimator _animator;
+        private MutantAnimator _animator;
 
         public event Action HealthChanged;
         
         [SerializeField] private float _current;
         [SerializeField] private float _max;
 
-
+        public void Init(MutantAnimator animator)
+        {
+            _animator = animator;
+        }
+        
         public float Current
         {
             get => _current;

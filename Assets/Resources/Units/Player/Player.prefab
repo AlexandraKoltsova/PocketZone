@@ -713,6 +713,7 @@ GameObject:
   - component: {fileID: 6218404987518934840}
   - component: {fileID: 2873116738199962192}
   - component: {fileID: 2006161399}
+  - component: {fileID: 4351268994381679546}
   - component: {fileID: 2567484076255465377}
   - component: {fileID: 5676774599941560430}
   - component: {fileID: 7622832367235341662}
@@ -805,6 +806,40 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4351268994381679546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5450784539223268917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02d213e447f4a50aa489991e8befece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 2006161399}
+  _rb: {fileID: 2873116738199962192}
+  _collider: {fileID: 6218404987518934840}
+  _aimCollider: {fileID: 1744015638}
+  _mesh: {fileID: 5450784538688438206}
+  _aimPoint: {fileID: 738460823016839071}
+  _gunEndPointPosition: {fileID: 4157591964866661772}
+  _playerMovement: {fileID: 2567484076255465377}
+  _playerAnimator: {fileID: 5676774599941560430}
+  _playerHealth: {fileID: 7622832367235341662}
+  _playerDeath: {fileID: 7781463045635078312}
+  _playerAim: {fileID: 2217411086593953186}
+  _aimZone: {fileID: 5526881115478093292}
+  _playerShooting: {fileID: 8498862068286882557}
+  _zoneObserver: {fileID: 84134101637087003}
+  _movementSpeed: 4
+  _bullets:
+  - {fileID: 1282325271}
+  - {fileID: 8478328948359190108}
+  - {fileID: 8309742329184059724}
+  - {fileID: 6126294014621801705}
+  - {fileID: 5967587767210404029}
 --- !u!114 &2567484076255465377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -817,10 +852,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6777d53932b4e478ed7805b29b6bedb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 4
-  _rb: {fileID: 2873116738199962192}
-  _collider: {fileID: 6218404987518934840}
-  _mesh: {fileID: 5450784538688438206}
 --- !u!114 &5676774599941560430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -833,8 +864,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49eb1ea2c72445de87eb83e9d98412eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 2006161399}
-  _rb: {fileID: 2873116738199962192}
 --- !u!114 &7622832367235341662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,7 +876,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 734fb99589d1470e9cc2566065ee9961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 5676774599941560430}
 --- !u!114 &7781463045635078312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,10 +888,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef187d6a85047baa990840b2119b107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movement: {fileID: 2567484076255465377}
-  _animator: {fileID: 5676774599941560430}
-  _playerHealth: {fileID: 7622832367235341662}
-  _playerAim: {fileID: 2217411086593953186}
 --- !u!114 &5526881115478093292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -876,9 +900,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3eabb0042044a57a6be24cdea7c2c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _aim: {fileID: 2217411086593953186}
-  _triggerObserver: {fileID: 84134101637087003}
-  _collider: {fileID: 1744015638}
 --- !u!114 &2217411086593953186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,9 +912,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0874a77935134ea6bfe4d1a287ebb302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _aimZone: {fileID: 5526881115478093292}
-  _aimPoint: {fileID: 738460823016839071}
-  _gunEndPointPosition: {fileID: 4157591964866661772}
 --- !u!114 &8498862068286882557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -906,13 +924,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9d414352174e49b9301d848e026779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _aim: {fileID: 2217411086593953186}
-  _bullets:
-  - {fileID: 1282325271}
-  - {fileID: 8478328948359190108}
-  - {fileID: 8309742329184059724}
-  - {fileID: 6126294014621801705}
-  - {fileID: 5967587767210404029}
 --- !u!1 &5450784539597137402
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,35 +5,47 @@ namespace Mutant
 {
     public class Aggro : MonoBehaviour
     {
-        [SerializeField] private ZoneObserver _triggerObserver;
-        [SerializeField] private AgentMoveToPlayer _followAgent;
+        private ZoneObserver _triggerObserver;
+        private AgentMoveToPlayer _followAgent;
+        private bool _canMove;
         
-        private void Start()
+        public void Init(ZoneObserver triggerObserver, AgentMoveToPlayer followAgent)
         {
-            _triggerObserver.TriggerEnter += TriggerEnter;
+            _triggerObserver = triggerObserver;
+            _followAgent = followAgent;
+        }  
+        
+        public void Startup()
+        {
+            _triggerObserver.TriggerStay += TriggerStay;
             _triggerObserver.TriggerExit += TriggerExit;
             
-            SwitchFollowOff();
+            _canMove = false;
+        }
+
+        public bool Tick()
+        {
+            if (_canMove)
+            {
+                return true;
+            }
+            return false;
+        }
+        
+        private void TriggerStay(Collider2D obj)
+        {
+            _canMove = true;
         }
 
         private void TriggerExit(Collider2D obj)
         {
-            SwitchFollowOff();
+            _canMove = false;
         }
 
-        private void TriggerEnter(Collider2D obj)
+        private void OnDisable()
         {
-            SwitchFollowOn();
-        }
-        
-        private void SwitchFollowOn()
-        {
-            _followAgent.enabled = true;
-        }
-        
-        private void SwitchFollowOff()
-        {
-            _followAgent.enabled = false;
+            _triggerObserver.TriggerStay -= TriggerStay;
+            _triggerObserver.TriggerExit -= TriggerExit;
         }
     }
 }

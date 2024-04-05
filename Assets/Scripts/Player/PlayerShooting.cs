@@ -7,9 +7,8 @@ namespace Player
 {
     public class PlayerShooting : MonoBehaviour, ISavedProgressReader
     {
-        [SerializeField] private PlayerAim _aim;
-        [SerializeField] private GameObject[] _bullets;
-        
+        private PlayerAim _aim;
+        private GameObject[] _bullets;
         private Stats _stats;
 
         public void LoadProgress(PlayerProgress progress)
@@ -17,7 +16,13 @@ namespace Player
             _stats = progress.Stats;
         }
 
-        private void Start()
+        public void Init(PlayerAim aim, GameObject[] bullets)
+        {
+            _aim = aim;
+            _bullets = bullets;
+        }
+        
+        public void Startup()
         {
             _aim.OnShoot += OnShoot;
         }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(Animator))]
     public class PlayerAnimator : MonoBehaviour, IAnimationStateReader
     {
         private static readonly int Move = Animator.StringToHash("Run");
@@ -18,16 +17,21 @@ namespace Player
         private readonly int _runningStateHash = Animator.StringToHash("run");
         private readonly int _deathStateHash = Animator.StringToHash("die");
 
-        [SerializeField] private Animator _animator;
-        [SerializeField] private Rigidbody2D _rb;
+        private Animator _animator;
+        private Rigidbody2D _rb;
         
         public event Action<AnimatorState> StateEntered;
         public event Action<AnimatorState> StateExited;
 
         public AnimatorState State { get; private set; }
 
-
-        private void Update()
+        public void Init(Animator animator, Rigidbody2D rb)
+        {
+            _animator = animator;
+            _rb = rb;
+        }
+        
+        public void Tick()
         {
             _animator.SetFloat(Move, _rb.velocity.magnitude, 0.1f, Time.deltaTime);
         }

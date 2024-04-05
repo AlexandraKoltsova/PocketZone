@@ -11,28 +11,32 @@ namespace Player
 {
     public class AimZone : MonoBehaviour, ISavedProgressReader
     {
-        [SerializeField] private PlayerAim _aim;
-        [SerializeField] private ZoneObserver _triggerObserver;
-        [SerializeField] private CircleCollider2D _collider;
-        
-        private List<UniqueId> _targetsList = new List<UniqueId>();
+        private ZoneObserver _triggerObserver;
+        private CircleCollider2D _collider;
+        private Stats _stats;
+
+        private List<MutantCharacter> _targetsList = new List<MutantCharacter>();
         private Transform _currentTarget;
-        
+
         private float _minDistance = Mathf.Infinity;
 
         public event Action<Transform> GetTarget;
         public event Action TargetEnable, TargetDisable;
-        
-        private Stats _stats;
 
         public void LoadProgress(PlayerProgress progress)
         {
             _stats = progress.Stats;
         }
 
-        private void Start()
+        public void Init(ZoneObserver triggerObserver, CircleCollider2D collider)
         {
-            SetRadiusZone();
+            _triggerObserver = triggerObserver;
+            _collider = collider;
+        }
+        
+        public void Startup()
+        {
+            SetAimRadius();
             
             _triggerObserver.TriggerEnter += TriggerEnter;
             _triggerObserver.TriggerExit += TriggerExit;
@@ -40,10 +44,8 @@ namespace Player
             _targetsList.Clear();
         }
 
-        private void Update()
+        public void Tick()
         {
-            Debug.Log(_targetsList.Count);
-            
             if (_targetsList.Count == 0)
             {
                 TargetDisable?.Invoke();
@@ -56,7 +58,7 @@ namespace Player
             GetTarget?.Invoke(_currentTarget);
         }
 
-        private void SetRadiusZone()
+        private void SetAimRadius()
         {
             _collider.radius = _stats.DamageRadius;
         }
@@ -79,25 +81,25 @@ namespace Player
             return _currentTarget;
         }
 
-        private void TriggerEnter(Collider2D obj)
+        private void TriggerEnter(Collider2D collider)
         {
-            if (obj.TryGetComponent(out UniqueId mutantId))
+            if (collider.TryGetComponent(out MutantCharacter mutant))
             {
-                if (_targetsList.Exists(t => t == mutantId))
+                if (_targetsList.Exists(t => t.MutantId == mutant.MutantId))
                 {
                     return;
                 }
 
-                _targetsList.Add(mutantId);
-                mutantId.GetComponent<MutantDeath>().OnDead += MutantOnDead;
+                _targetsList.Add(mutant);
+                mutant.OnDead += MutantOnDead;
             }
         }
 
-        private void MutantOnDead(GameObject mutant)
+        private void MutantOnDead(MutantCharacter mutant)
         {
             for (int i = 0; i < _targetsList.Count; i++)
             {
-                if (_targetsList[i].Id == mutant.GetComponent<UniqueId>().Id)
+                if (_targetsList[i].MutantId == mutant.MutantId)
                 {
                     _targetsList.Remove(_targetsList[i]);
                     _currentTarget = null;
@@ -106,16 +108,17 @@ namespace Player
             }
         }
 
-        private void TriggerExit(Collider2D obj)
+        private void TriggerExit(Collider2D collider)
         {
-            if (obj.TryGetComponent(out UniqueId mutantId))
+            if (collider.TryGetComponent(out MutantCharacter mutant))
             {
                 for (int i = 0; i < _targetsList.Count; i++)
                 {
-                    if (_targetsList[i].Id == mutantId.Id)
+                    if (_targetsList[i].MutantId == mutant.MutantId)
                     {
-                        _targetsList[i].GetComponent<MutantDeath>().OnDead -= MutantOnDead;
+                        _targetsList[i].OnDead -= MutantOnDead;
                         _targetsList.Remove(_targetsList[i]);
+                        
                         _currentTarget = null;
                         _minDistance = Mathf.Infinity;
                     }

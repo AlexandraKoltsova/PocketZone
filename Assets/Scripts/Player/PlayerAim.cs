@@ -1,5 +1,4 @@
 using System;
-using Services;
 using Services.Input;
 using UnityEngine;
 
@@ -7,9 +6,9 @@ namespace Player
 {
     public class PlayerAim : MonoBehaviour
     {
-        [SerializeField] private AimZone _aimZone;
-        [SerializeField] private Transform _aimPoint;
-        [SerializeField] private Transform _gunEndPointPosition;
+        private AimZone _aimZone;
+        private Transform _aimPoint;
+        private Transform _gunEndPointPosition;
         
         private Transform _target;
         private bool _isAiming;
@@ -25,17 +24,25 @@ namespace Player
 
         }
         
-        private void Awake()
+        public void Init(IInputService inputService, AimZone aimZone, Transform aimPoint, Transform gunEndPointPosition)
         {
+            _aimZone = aimZone;
+            _aimPoint = aimPoint;
+            _gunEndPointPosition = gunEndPointPosition;
+            _inputService = inputService;
+            
             _aimZone.GetTarget += SetTarget;
             _aimZone.TargetEnable += TargetEnable;
             _aimZone.TargetDisable += TargetDisable;
-
-            _inputService = AllServices.Container.Single<IInputService>();
         }
 
-        private void Update()
+        public void Tick(bool canAim)
         {
+            if (!canAim)
+            {
+                return;
+            }
+            
             if (_isAiming)
             {
                 HandleShooting();

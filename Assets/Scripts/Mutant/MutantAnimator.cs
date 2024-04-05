@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Mutant
 {
-    [RequireComponent(typeof(Animator))]
     public class MutantAnimator : MonoBehaviour, IAnimationStateReader
     {
         private static readonly int Attack = Animator.StringToHash("Attack");
@@ -18,12 +17,17 @@ namespace Mutant
         private readonly int _runningStateHash = Animator.StringToHash("run");
         private readonly int _deathStateHash = Animator.StringToHash("die");
 
-        [SerializeField] private Animator _animator;
+        private Animator _animator;
         
         public event Action<AnimatorState> StateEntered;
         public event Action<AnimatorState> StateExited;
 
         public AnimatorState State { get; private set; }
+
+        public void Init(Animator animator)
+        {
+            _animator = animator;
+        }
         
         public void PlayHit() => _animator.SetTrigger(Hit);
         public void PlayDeath() => _animator.SetTrigger(Die);

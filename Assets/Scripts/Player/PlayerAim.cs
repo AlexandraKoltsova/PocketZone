@@ -13,7 +13,7 @@ namespace Player
         private Transform _target;
         private bool _isAiming;
         
-        private IInputService _inputService;
+        private IInputSystem _inputSystem;
         
         public event Action<OnShootEvent> OnShoot;
 
@@ -24,12 +24,12 @@ namespace Player
 
         }
         
-        public void Init(IInputService inputService, AimZone aimZone, Transform aimPoint, Transform gunEndPointPosition)
+        public void Init(IInputSystem inputSystem, AimZone aimZone, Transform aimPoint, Transform gunEndPointPosition)
         {
             _aimZone = aimZone;
             _aimPoint = aimPoint;
             _gunEndPointPosition = gunEndPointPosition;
-            _inputService = inputService;
+            this._inputSystem = inputSystem;
             
             _aimZone.GetTarget += SetTarget;
             _aimZone.TargetEnable += TargetEnable;
@@ -97,7 +97,7 @@ namespace Player
 
         private void HandleShooting()
         {
-            if (_inputService.IsAttackButton())
+            if (_inputSystem.IsAttackButton())
             {
                 OnShoot?.Invoke(new OnShootEvent
                 {

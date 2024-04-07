@@ -17,13 +17,13 @@ namespace Player
         private Collider2D _collider;
         private Transform _mesh;
         
-        private IInputService _inputService;
-        private ISaveLoadService _saveLoadService;
+        private IInputSystem _inputSystem;
+        private ISaveLoadSystem _saveLoadSystem;
 
-        public void Init(IInputService inputService, ISaveLoadService saveLoadService, Rigidbody2D rb, Collider2D collider, Transform mesh, float movementSpeed)
+        public void Init(IInputSystem inputSystem, ISaveLoadSystem saveLoadSystem, Rigidbody2D rb, Collider2D collider, Transform mesh, float movementSpeed)
         {
-            _inputService = inputService;
-            _saveLoadService = saveLoadService;
+            this._inputSystem = inputSystem;
+            this._saveLoadSystem = saveLoadSystem;
             _rb = rb;
             _collider = collider;
             _mesh = mesh;
@@ -39,11 +39,11 @@ namespace Player
             
             Vector2 movementVector;
             
-            if (_inputService.Axis.sqrMagnitude > Constants.Epsilon)
+            if (_inputSystem.Axis.sqrMagnitude > Constants.Epsilon)
             {
-                movementVector = _inputService.Axis;
+                movementVector = _inputSystem.Axis;
                 
-                if (_inputService.Axis.x < Constants.Epsilon)
+                if (_inputSystem.Axis.x < Constants.Epsilon)
                 {
                     ChangeDirection(-1);
                 }
@@ -94,7 +94,7 @@ namespace Player
 
         private void OnDisable()
         {
-            _saveLoadService.SaveProgress();
+            _saveLoadSystem.Save();
             Debug.Log("Progress Saved.");
         }
     }

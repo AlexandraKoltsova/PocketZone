@@ -23,17 +23,17 @@ namespace Infrastructure.States
         private readonly LoadingCurtain _curtain;
         
         private readonly IGameFactory _gameFactory;
-        private readonly IPersistentProgressService _progressService;
-        private readonly IStaticDataService _staticData;
+        private readonly IPersistentProgressSystem _progressSystem;
+        private readonly IStaticDataSystem _staticData;
         
         public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain, 
-            IGameFactory gameFactory, IPersistentProgressService progressService, IStaticDataService staticData)
+            IGameFactory gameFactory, IPersistentProgressSystem progressSystem, IStaticDataSystem staticData)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
             _gameFactory = gameFactory;
-            _progressService = progressService;
+            this._progressSystem = progressSystem;
             _staticData = staticData;
         }
 
@@ -61,7 +61,7 @@ namespace Infrastructure.States
         {
             foreach (ISavedProgressReader progressReader in _gameFactory.progressReaders)
             {
-                progressReader.LoadProgress(_progressService.Progress);
+                progressReader.LoadProgress(_progressSystem.Progress);
             }
         }
 

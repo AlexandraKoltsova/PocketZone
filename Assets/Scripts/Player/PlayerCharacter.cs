@@ -35,8 +35,8 @@ namespace Player
         [SerializeField] private float _movementSpeed;
         [SerializeField] private GameObject[] _bullets;
 
-        private IInputService _inputService;
-        private ISaveLoadService _saveLoadService;
+        private IInputSystem _inputSystem;
+        private ISaveLoadSystem _saveLoadSystem;
 
         private void OnValidate()
         {
@@ -52,12 +52,12 @@ namespace Player
 
         private void Awake()
         {
-            _inputService = AllServices.Container.Single<IInputService>();
-            _saveLoadService = AllServices.Container.Single<ISaveLoadService>();
+            _inputSystem = AllServices.Container.Single<IInputSystem>();
+            _saveLoadSystem = AllServices.Container.Single<ISaveLoadSystem>();
             
-            _playerMovement.Init(_inputService, _saveLoadService, _rb, _collider, _mesh, _movementSpeed);
+            _playerMovement.Init(_inputSystem, _saveLoadSystem, _rb, _collider, _mesh, _movementSpeed);
             _aimZone.Init(_zoneObserver, _aimCollider);
-            _playerAim.Init(_inputService, _aimZone, _aimPoint, _gunEndPointPosition);
+            _playerAim.Init(_inputSystem, _aimZone, _aimPoint, _gunEndPointPosition);
             _playerAnimator.Init(_animator, _rb);
             _playerHealth.Init(_playerAnimator);
             _playerDeath.Init(_playerAnimator, _playerHealth);

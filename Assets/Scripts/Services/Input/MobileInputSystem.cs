@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Services.Input
 {
-    public class MobileInputService : InputService
+    public class MobileInputSystem : InputSystem
     {
         public override Vector2 Axis
         {

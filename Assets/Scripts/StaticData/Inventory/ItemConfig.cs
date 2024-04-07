@@ -1,5 +1,4 @@
 using Logic.Inventory;
-using UI.Inventory;
 using UnityEngine;
 
 namespace StaticData.Inventory

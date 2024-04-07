@@ -7,20 +7,20 @@ namespace Infrastructure.States
     public class LoadProgressState : IState
     {
         private readonly GameStateMachine _stateMachine;
-        private readonly IPersistentProgressService _progressService;
-        private readonly ISaveLoadService _saveLoadService;
+        private readonly IPersistentProgressSystem _progressSystem;
+        private readonly ISaveLoadSystem _saveLoadSystem;
 
-        public LoadProgressState(GameStateMachine stateMachine, IPersistentProgressService progressService, ISaveLoadService saveLoadService)
+        public LoadProgressState(GameStateMachine stateMachine, IPersistentProgressSystem progressSystem, ISaveLoadSystem saveLoadSystem)
         {
             _stateMachine = stateMachine;
-            _progressService = progressService;
-            _saveLoadService = saveLoadService;
+            _progressSystem = progressSystem;
+            _saveLoadSystem = saveLoadSystem;
         }
 
         public void Enter()
         {
             LoadProgressOrInitNew();
-            _stateMachine.Enter<LoadLevelState, string>(_progressService.Progress.WorldData.PositionOnLevel.Level);
+            _stateMachine.Enter<LoadLevelState, string>(_progressSystem.Progress.WorldData.PositionOnLevel.Level);
         }
 
         public void Exit()
@@ -30,7 +30,7 @@ namespace Infrastructure.States
         
         private void LoadProgressOrInitNew()
         {
-            _progressService.Progress = _saveLoadService.LoadProgress() ?? NewProgress();
+            _progressSystem.Progress = _saveLoadSystem.LoadPlayerProgress() ?? NewProgress();
         }
 
         private PlayerProgress NewProgress()

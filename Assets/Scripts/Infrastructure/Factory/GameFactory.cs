@@ -3,6 +3,8 @@ using Infrastructure.AssetManagement;
 using Logic;
 using Logic.Spawners;
 using Mutant;
+using Player;
+using Services;
 using Services.PersistentProgress;
 using Services.Randomizer;
 using Services.StaticData;
@@ -16,23 +18,23 @@ namespace Infrastructure.Factory
 {
     public class GameFactory : IGameFactory
     {
-        private readonly IAssetProvider _assets;
-        private readonly IStaticDataService _staticData;
-        private readonly IRandomService _randomService;
+        private IAssetProvider _assets;
+        private IStaticDataSystem _staticData;
+        private IRandomSystem _randomSystem;
         
         public List<ISavedProgressReader> progressReaders { get; } = new List<ISavedProgressReader>();
         public List<ISavedProgress> progressWriters { get; } = new List<ISavedProgress>();
-        
-        private GameObject PlayerGameObject { get; set; }
-        private int _mutantId = 1;
-        
-        public GameFactory(IAssetProvider assets, IStaticDataService staticData, IRandomService randomService)
-        {
-            _assets = assets;
-            _staticData = staticData;
-            _randomService = randomService;
-        }
 
+        private GameObject _player;
+        private int _mutantId = 1;
+
+        public virtual void InitSystem()
+        {
+            _assets = SystemsManager.Get<IAssetProvider>();
+            _staticData = SystemsManager.Get<IStaticDataSystem>();
+            _randomSystem = SystemsManager.Get<IRandomSystem>();
+        }
+        
         public void Cleanup()
         {
             progressReaders.Clear();
@@ -41,8 +43,8 @@ namespace Infrastructure.Factory
 
         public GameObject CreatePlayer(GameObject at)
         {
-            PlayerGameObject = InstantiateRegistered(AssetsAddress.PlayerPrefabPath, at.transform.position);
-            return PlayerGameObject;
+            _player = InstantiateRegistered(AssetsAddress.PlayerPrefabPath, at.transform.position);
+            return _player;
         }
 
         public GameObject CreateHUD()
@@ -55,7 +57,7 @@ namespace Infrastructure.Factory
             MutantStaticData mutantData = _staticData.ForMutant(TypeId);
 
             GameObject mutantDataPrefab = mutantData.Prefab;
-            Vector3 parentPosition = _randomService.RandomZone(parent.position);
+            Vector3 parentPosition = _randomSystem.RandomZone(parent.position);
             GameObject mutant = Object.Instantiate(mutantDataPrefab, parentPosition, Quaternion.identity, parent);
 
             MutantCharacter mutantCharacter = mutant.GetComponent<MutantCharacter>();
@@ -67,7 +69,7 @@ namespace Infrastructure.Factory
             health.Max = mutantData.Hp;
 
             mutant.GetComponent<HealthController>().Construct(health);
-            mutant.GetComponent<AgentMoveToPlayer>().Construct(PlayerGameObject.transform);
+            mutant.GetComponent<AgentMoveToPlayer>().Construct(_player.transform);
             mutant.GetComponent<NavMeshAgent>().speed = mutantData.MoveSpeed;
 
             MutantAttack attack = mutant.GetComponent<MutantAttack>();
@@ -86,17 +88,6 @@ namespace Infrastructure.Factory
             spawner.Construct(this);
             spawner.Id = spawnerId;
             spawner.MutantTypeId = mutantTypeId;
-        }
-
-        
-        public void Register(ISavedProgressReader progressReader)
-        {
-            if (progressReader is ISavedProgress progressWriter)
-            {
-                progressWriters.Add(progressWriter);
-            }
-            
-            progressReaders.Add(progressReader);
         }
 
         private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
@@ -119,6 +110,16 @@ namespace Infrastructure.Factory
             {
                 Register(progressReader);
             }
+        }
+
+        private void Register(ISavedProgressReader progressReader)
+        {
+            if (progressReader is ISavedProgress progressWriter)
+            {
+                progressWriters.Add(progressWriter);
+            }
+            
+            progressReaders.Add(progressReader);
         }
     }
 }

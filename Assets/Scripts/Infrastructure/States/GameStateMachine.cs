@@ -21,13 +21,13 @@ namespace Infrastructure.States
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
                 
                 [typeof(LoadProgressState)] = new LoadProgressState(this, 
-                    services.Single<IPersistentProgressService>(), 
-                    services.Single<ISaveLoadService>()),
+                    services.Single<IPersistentProgressSystem>(), 
+                    services.Single<ISaveLoadSystem>()),
                 
                 [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain, 
                     services.Single<IGameFactory>(), 
-                    services.Single<IPersistentProgressService>(),
-                    services.Single<IStaticDataService>()),
+                    services.Single<IPersistentProgressSystem>(),
+                    services.Single<IStaticDataSystem>()),
                 
                 [typeof(GameLoopState)] = new GameLoopState(this),
             };

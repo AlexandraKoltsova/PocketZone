@@ -18,6 +18,7 @@ namespace Infrastructure.States
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly AllServices _services;
+        private SaveLoadSystem _saveLoadSystem;
         
         public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, AllServices services)
         {
@@ -26,10 +27,14 @@ namespace Infrastructure.States
             _services = services;
             
             RegisterServices();
+            
+            SystemsManager.Init();
+            SystemsManager.Start();
         }        
 
         public void Enter()
         {
+            _saveLoadSystem?.Load();
             _sceneLoader.Load(Boot, onLoaded: EnterLoadLevel);
         }
 
@@ -46,39 +51,28 @@ namespace Infrastructure.States
         {
             RegisterStaticData();
             
-            _services.RegisterSingle<IInputService>(InputService());
-
-            _services.RegisterSingle<IRandomService>(new RandomService());
-            
-            _services.RegisterSingle<IAssetProvider>(new AssetProvider());
-
-            _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
-            
-            _services.RegisterSingle<IInventorySystem>(new InventorySystem());
-
-            _services.RegisterSingle<IGameFactory>(new GameFactory(
-                _services.Single<IAssetProvider>(), 
-                _services.Single<IStaticDataService>(),
-                _services.Single<IRandomService>()));
-
-            _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(
-                _services.Single<IPersistentProgressService>(), 
-                _services.Single<IGameFactory>()));
+            SystemsManager.AddInstance(GetInputSystem(), true);
+            SystemsManager.Add<RandomSystem>(true);
+            SystemsManager.Add<AssetProvider>(true);
+            SystemsManager.Add<PersistentProgressSystem>(true);
+            SystemsManager.Add<InventorySystem>(true);
+            SystemsManager.Add<GameFactory>(true);
+            _saveLoadSystem = (SaveLoadSystem)SystemsManager.Add<SaveLoadSystem>(true);
         }
 
         private void RegisterStaticData()
         {
-            IStaticDataService staticData = new StaticDataService();
+            IStaticDataSystem staticData = new StaticDataSystem();
             staticData.LoadMonsters();
             _services.RegisterSingle(staticData);
         }
 
-        private static IInputService InputService()
+        private static IInputSystem GetInputSystem()
         {
             if (Application.isEditor)
-                return new KeyboardInputService();
+                return new KeyboardInputSystem();
             else
-                return new MobileInputService();
+                return new MobileInputSystem();
         }
     }
 }

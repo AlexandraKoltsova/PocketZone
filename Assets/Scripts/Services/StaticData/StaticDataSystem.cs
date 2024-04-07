@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Services.StaticData
 {
-    public class StaticDataService : IStaticDataService 
+    public class StaticDataSystem : IStaticDataSystem 
     {
         private Dictionary<MutantTypeId, MutantStaticData> _mutants;
         private Dictionary<string, LevelStaticData> _levels;

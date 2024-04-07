@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Services.Input
 {
-    public interface IInputService : IService
+    public interface IInputSystem : ISystem
     {
         Vector2 Axis { get; }
         

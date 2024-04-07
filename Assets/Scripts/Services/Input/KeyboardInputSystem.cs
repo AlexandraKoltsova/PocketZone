@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Services.Input
 {
-    public class KeyboardInputService : InputService
+    public class KeyboardInputSystem : InputSystem
     {
         public override Vector2 Axis
         {

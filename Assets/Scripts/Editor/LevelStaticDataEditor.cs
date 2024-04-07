@@ -2,6 +2,7 @@ using System.Linq;
 using Logic;
 using Logic.Spawners;
 using StaticData;
+using StaticData.MutantsData;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;

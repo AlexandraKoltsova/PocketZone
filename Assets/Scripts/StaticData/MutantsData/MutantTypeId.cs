@@ -1,4 +1,4 @@
-namespace StaticData
+namespace StaticData.MutantsData
 {
     public enum MutantTypeId
     {

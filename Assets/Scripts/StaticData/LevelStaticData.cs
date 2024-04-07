@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using StaticData.MutantsData;
 using UnityEngine;
 
 namespace StaticData

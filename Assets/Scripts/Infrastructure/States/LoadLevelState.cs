@@ -6,6 +6,7 @@ using Player;
 using Services.PersistentProgress;
 using Services.StaticData;
 using StaticData;
+using StaticData.MutantsData;
 using UI.HUD;
 using UnityEngine;
 using UnityEngine.SceneManagement;

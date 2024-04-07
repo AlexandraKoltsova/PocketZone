@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace StaticData
+namespace StaticData.MutantsData
 {
     [CreateAssetMenu(fileName = "StaticData", menuName = "StaticData/Mutant")]
     public class MutantStaticData : ScriptableObject

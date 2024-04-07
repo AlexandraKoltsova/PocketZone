@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Services;
 using Services.PersistentProgress;
 using StaticData;
+using StaticData.MutantsData;
 using UnityEngine;
 
 namespace Infrastructure.Factory

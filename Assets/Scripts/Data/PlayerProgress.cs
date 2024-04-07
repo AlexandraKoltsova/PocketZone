@@ -1,4 +1,5 @@
 using System;
+using Data.Inventory;
 using Data.PlayerStatus;
 using Data.Position;
 
@@ -11,6 +12,7 @@ namespace Data
         public Health Health;
         public Stats Stats;
         public KillData KillData;
+        public InventoryItemSaveData InventoryItemSaveData;
         
         public PlayerProgress(string initialLevel)
         {
@@ -18,6 +20,7 @@ namespace Data
             Health = new Health();
             Stats = new Stats();
             KillData = new KillData();
+            InventoryItemSaveData = new InventoryItemSaveData();
         }
     }
 }

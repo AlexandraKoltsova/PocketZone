@@ -2,6 +2,7 @@ using Infrastructure.AssetManagement;
 using Infrastructure.Factory;
 using Services;
 using Services.Input;
+using Services.Inventory;
 using Services.PersistentProgress;
 using Services.Randomizer;
 using Services.SaveLoad;
@@ -52,6 +53,8 @@ namespace Infrastructure.States
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
 
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
+            
+            _services.RegisterSingle<IInventorySystem>(new InventorySystem());
 
             _services.RegisterSingle<IGameFactory>(new GameFactory(
                 _services.Single<IAssetProvider>(), 

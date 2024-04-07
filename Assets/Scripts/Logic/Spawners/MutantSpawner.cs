@@ -3,6 +3,7 @@ using Infrastructure.Factory;
 using Mutant;
 using Services.PersistentProgress;
 using StaticData;
+using StaticData.MutantsData;
 using UnityEngine;
 
 namespace Logic.Spawners

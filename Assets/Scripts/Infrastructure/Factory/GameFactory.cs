@@ -7,6 +7,7 @@ using Services.PersistentProgress;
 using Services.Randomizer;
 using Services.StaticData;
 using StaticData;
+using StaticData.MutantsData;
 using UI.HUD;
 using UnityEngine;
 using UnityEngine.AI;

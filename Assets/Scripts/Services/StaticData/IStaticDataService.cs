@@ -1,4 +1,5 @@
 using StaticData;
+using StaticData.MutantsData;
 
 namespace Services.StaticData
 {

@@ -1,8 +1,8 @@
-namespace StaticData.MutantsData
+namespace StaticData.Mutant
 {
     public enum MutantTypeId
     {
         Zombie = 0,
-        Flesh = 10,
+        Flesh = 1,
     }
 }

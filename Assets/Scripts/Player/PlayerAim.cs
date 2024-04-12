@@ -21,7 +21,6 @@ namespace Player
         {
             public Vector3 GunEndPointPosition;
             public Vector3 ShootPosition;
-
         }
         
         public void Init(IInputSystem inputSystem, AimZone aimZone, Transform aimPoint, Transform gunEndPointPosition)

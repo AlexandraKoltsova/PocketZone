@@ -130,7 +130,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1953493859
 Transform:
   m_ObjectHideFlags: 0
@@ -1481,7 +1481,11 @@ MonoBehaviour:
   _aimZone: {fileID: 5526881115478093292}
   _playerShooting: {fileID: 8498862068286882557}
   _zoneObserver: {fileID: 84134101637087003}
+  _bullet: {fileID: 0}
+  _health: 50
   _movementSpeed: 4
+  _damage: 10
+  _bulletSpeed: 3
   _bullets:
   - {fileID: 1282325271}
   - {fileID: 8478328948359190108}
@@ -2174,6 +2178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bullet
       objectReference: {fileID: 0}
+    - target: {fileID: 3122996175137241199, guid: 24d211c52aa927242bdf6ae5fbec322c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24d211c52aa927242bdf6ae5fbec322c, type: 3}
 --- !u!4 &1282325264 stripped
@@ -2240,6 +2248,10 @@ PrefabInstance:
     - target: {fileID: 3122996175137241199, guid: 24d211c52aa927242bdf6ae5fbec322c, type: 3}
       propertyPath: m_Name
       value: Bullet (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122996175137241199, guid: 24d211c52aa927242bdf6ae5fbec322c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24d211c52aa927242bdf6ae5fbec322c, type: 3}
@@ -2308,6 +2320,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bullet (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3122996175137241199, guid: 24d211c52aa927242bdf6ae5fbec322c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24d211c52aa927242bdf6ae5fbec322c, type: 3}
 --- !u!4 &8478328948359190107 stripped
@@ -2375,6 +2391,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bullet (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 3122996175137241199, guid: 24d211c52aa927242bdf6ae5fbec322c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24d211c52aa927242bdf6ae5fbec322c, type: 3}
 --- !u!4 &5967587767210404026 stripped
@@ -2441,6 +2461,10 @@ PrefabInstance:
     - target: {fileID: 3122996175137241199, guid: 24d211c52aa927242bdf6ae5fbec322c, type: 3}
       propertyPath: m_Name
       value: Bullet (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122996175137241199, guid: 24d211c52aa927242bdf6ae5fbec322c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24d211c52aa927242bdf6ae5fbec322c, type: 3}

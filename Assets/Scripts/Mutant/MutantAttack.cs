@@ -8,10 +8,10 @@ namespace Mutant
     {
         private MutantAnimator _animator;
 
-        public float Damage = 10f;
-        public float AttackColldown = 3f;
-        public float CLeavage = 0.5f;
-        public float EffectiveDistance = 0.5f;
+        private int _damage = 10;
+        private float _attackColldown = 3f;
+        private float _CLeavage = 0.5f;
+        private float _effectiveDistance = 0.5f;
 
         private float _currentAttackColldown;
         private bool _isAttacking;
@@ -37,6 +37,14 @@ namespace Mutant
             _layerMask = 1 << LayerMask.NameToLayer("Player");
         }
 
+        public void Construct(int damage, float attackCooldown, float CLeavag, float effectiveDistance)
+        {
+            _damage = damage;
+            _attackColldown = attackCooldown;
+            _CLeavage = CLeavag;
+            _effectiveDistance = effectiveDistance;
+        }
+        
         public void Tick()
         {
             UpdateCooldown();
@@ -51,14 +59,14 @@ namespace Mutant
         {
             if (Hit(out Collider2D hit) && hit.TryGetComponent(out IHealth playerHealth))
             {
-                PhysicsDebug.DrawDebug(StartPoint(), CLeavage, 1);
-                playerHealth.TakeDamage(Damage);
+                PhysicsDebug.DrawDebug(StartPoint(), _CLeavage, 1);
+                playerHealth.TakeDamage(_damage);
             }
         }
 
         private bool Hit(out Collider2D hit)
         {
-            int hitCount = Physics2D.OverlapCircleNonAlloc(StartPoint(), CLeavage, _hits, _layerMask);
+            int hitCount = Physics2D.OverlapCircleNonAlloc(StartPoint(), _CLeavage, _hits, _layerMask);
 
             hit = _hits.FirstOrDefault();
 
@@ -67,13 +75,13 @@ namespace Mutant
 
         private Vector2 StartPoint()
         {
-            return new Vector2(transform.position.x * EffectiveDistance, transform.position.y * EffectiveDistance + 1f);
+            return new Vector2(transform.position.x * _effectiveDistance, transform.position.y * _effectiveDistance + 1f);
         }
 
 
         private void OnAttackEnded()
         {
-            _currentAttackColldown = AttackColldown;
+            _currentAttackColldown = _attackColldown;
 
             _isAttacking = false;
         }

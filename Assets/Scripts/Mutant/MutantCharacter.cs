@@ -30,27 +30,8 @@ namespace Mutant
         [SerializeField] private Aggro _aggro;
 
         [Header("Properties")]
-        [SerializeField] private float _currentHealth;
-        [SerializeField] private float _maxHealth;
-        [SerializeField] private float _hp;
-
-        private Transform _playerTransform;
         public float MutantId;
         public event Action<MutantCharacter> OnDead;
-
-        // public void Construct(Transform playerTransform, int hp)
-        // {
-        //     _playerTransform = playerTransform;
-        //     _hp = hp;
-        // }
-
-        // public void ConstructAttack(float damage, float attackCooldown, float CLeavag, float effectiveDistance)
-        // {
-        // _damage = damage;
-        // _attackCooldown = attackCooldown;
-        // _CLeavag = CLeavag;
-        // _effectiveDistance = effectiveDistance;
-        // }
 
         private void OnValidate()
         {
@@ -76,7 +57,7 @@ namespace Mutant
             _animateAlongAgent.Init(_navMeshAgent, _mutantAnimator);
             _mutantAttack.Init(_mutantAnimator);
             _attackZone.Init(_mutantAttack, _zoneAttack);
-            _aggro.Init(_zoneAggro, _agentMoveToPlayer);
+            _aggro.Init(_zoneAggro);
             _mutantDeath.Init(_mutantHealth, _mutantAnimator, _aggro, _navMeshAgent, _agentMoveToPlayer);
 
             _mutantDeath.OnDead += MutantDead;

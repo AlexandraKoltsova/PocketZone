@@ -1,13 +1,10 @@
 using System.Collections.Generic;
-using Data;
-using Data.Inventory;
 using Logic.Inventory;
-using Services.PersistentProgress;
 using StaticData.Inventory;
 
 namespace Services.Inventory
 {
-    public class InventorySystem : IInventorySystem, ISavedProgress
+    public class InventorySystem : IInventorySystem
     {
         public List<ItemData> ListOfItemsData = new List<ItemData>();
         public List<ItemConfig> ListOfItemsConfig = new List<ItemConfig>();
@@ -18,19 +15,6 @@ namespace Services.Inventory
             {
                 //ListOfItemsData.Add(ItemData.GetEmptyItem());
             }
-        }
-
-        public void LoadProgress(PlayerProgress progress)
-        {
-            // foreach (InventoryItemSaveData inventoryItem in  progress.InventoryData.InventoryItems)
-            // {
-            //     //_listOfItemsData.Add(inventoryItem);
-            // }
-        }
-
-        public void SaveProgress(PlayerProgress progress)
-        {
-            
         }
 
         public void EquipItem(int itemConfigID)

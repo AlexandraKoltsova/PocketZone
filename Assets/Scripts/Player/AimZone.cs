@@ -1,33 +1,30 @@
 using System;
 using System.Collections.Generic;
-using Data;
-using Data.PlayerStatus;
 using Logic;
 using Mutant;
-using Services.PersistentProgress;
 using UnityEngine;
 
 namespace Player
 {
-    public class AimZone : MonoBehaviour, ISavedProgressReader
+    public class AimZone : MonoBehaviour
     {
         private ZoneObserver _triggerObserver;
         private CircleCollider2D _collider;
-        private Stats _stats;
 
         private List<MutantCharacter> _targetsList = new List<MutantCharacter>();
         private Transform _currentTarget;
 
         private float _minDistance = Mathf.Infinity;
+        private float _aimRadius;
 
         public event Action<Transform> GetTarget;
         public event Action TargetEnable, TargetDisable;
 
-        public void LoadProgress(PlayerProgress progress)
+        public void Construct( int aimRadius)
         {
-            _stats = progress.Stats;
+            _aimRadius = aimRadius;
         }
-
+        
         public void Init(ZoneObserver triggerObserver, CircleCollider2D collider)
         {
             _triggerObserver = triggerObserver;
@@ -60,7 +57,7 @@ namespace Player
 
         private void SetAimRadius()
         {
-            _collider.radius = _stats.DamageRadius;
+            _collider.radius = _aimRadius;
         }
 
         private Transform SetNearestTarget()

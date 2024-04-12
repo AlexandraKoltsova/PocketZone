@@ -1,6 +1,5 @@
 using Infrastructure.States;
 using Logic;
-using Services;
 
 namespace Infrastructure
 {
@@ -10,7 +9,7 @@ namespace Infrastructure
         
         public Game(ICoroutineRunner coroutineRunner, LoadingCurtain curtain)
         {
-            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), curtain, AllServices.Container);
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), curtain);
         }
     }
 }

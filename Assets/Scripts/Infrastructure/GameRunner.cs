@@ -8,9 +8,9 @@ namespace Infrastructure
 
         private void Awake()
         {
-            var bootstriper = FindObjectOfType<GameBootstrapper>();
+            var bootstrapper = FindObjectOfType<GameBootstrapper>();
 
-            if(bootstriper == null)
+            if(bootstrapper == null)
                 Instantiate(_bootstrapperPrefab);
         }
     }

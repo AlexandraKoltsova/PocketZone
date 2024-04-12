@@ -1,46 +1,35 @@
 using Cinemachine;
-using Infrastructure.Factory;
 using Logic;
-using Logic.Spawners;
-using Player;
-using Services.PersistentProgress;
-using Services.StaticData;
-using StaticData;
-using StaticData.MutantsData;
-using UI.HUD;
+using Services;
+using Services.Spawner;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Infrastructure.States
 {
-    public class LoadLevelState : IPayloadedState<string>
+    public class LoadLevelState : IPayloadedState<string>, ISystem
     {
-        private const string InitialPointTag = "InitialPoint";
-        private const string MutantSpawnerTag = "MutantSpawner";
-        
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
         
-        private readonly IGameFactory _gameFactory;
-        private readonly IPersistentProgressSystem _progressSystem;
-        private readonly IStaticDataSystem _staticData;
-        
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain, 
-            IGameFactory gameFactory, IPersistentProgressSystem progressSystem, IStaticDataSystem staticData)
+        private IMutantSpawnSystem _mutantSpawn;
+        private IPlayerSpawnSystem _playerSpawn;
+        private IHUDSpawnSystem _hudSpawn;
+
+        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
-            _gameFactory = gameFactory;
-            this._progressSystem = progressSystem;
-            _staticData = staticData;
+            
+            _mutantSpawn = SystemsManager.Get<IMutantSpawnSystem>();
+            _playerSpawn = SystemsManager.Get<IPlayerSpawnSystem>();
+            _hudSpawn = SystemsManager.Get<IHUDSpawnSystem>();
         }
 
         public void Enter(string sceneName)
         {
             _curtain.Show();
-            _gameFactory.Cleanup();
             _sceneLoader.Load(sceneName, OnLoaded);
         }
 
@@ -52,56 +41,21 @@ namespace Infrastructure.States
         private void OnLoaded()
         {
             InitGameWorld();
-            InformProgressReaders();
-            
             _stateMachine.Enter<GameLoopState>();
-        }
-
-        private void InformProgressReaders()
-        {
-            foreach (ISavedProgressReader progressReader in _gameFactory.progressReaders)
-            {
-                progressReader.LoadProgress(_progressSystem.Progress);
-            }
         }
 
         private void InitGameWorld()
         {
-            InitSpawners();
+            _playerSpawn.InitPlayer();
+            _mutantSpawn.InitSpawner();
+            _hudSpawn.InitHUD();
             
-            GameObject player = InitPlayer();
-            InitHud(player);
-            
-            CameraFollow(player);
+            CameraFollow(_playerSpawn.GetPlayerTransform());
         }
 
-        private void InitSpawners()
+        private static void CameraFollow(Transform player)
         {
-            string sceneKey = SceneManager.GetActiveScene().name;
-            LevelStaticData levelData = _staticData.ForLevel(sceneKey);
-            
-            foreach (MutantSpawnerData spawnerData in levelData.MutantSpawners)
-            {
-                _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MutantTypeId);
-            }
-        }
-
-        private GameObject InitPlayer()
-        {
-            return _gameFactory.CreatePlayer(at: GameObject.FindWithTag(InitialPointTag));
-        }
-
-        private void InitHud(GameObject player)
-        {
-            GameObject hud = _gameFactory.CreateHUD();
-
-            hud.GetComponentInChildren<HealthController>()
-                .Construct(player.GetComponent<IHealth>());
-        }
-
-        private static void CameraFollow(GameObject player)
-        {
-            Camera.main.GetComponentInChildren<CinemachineVirtualCamera>().Follow = player.transform;
+            Camera.main.GetComponentInChildren<CinemachineVirtualCamera>().Follow = player;
         }
     }
 }

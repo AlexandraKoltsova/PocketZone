@@ -6,9 +6,9 @@ namespace Logic
     {
         public event Action HealthChanged;
 
-        public float Current { get; set; }
-        public float Max { get; set; }
+        public int Current { get; set; }
+        public int Max { get; set; }
 
-        public void TakeDamage(float damage);
+        public void TakeDamage(int damage);
     }
 }

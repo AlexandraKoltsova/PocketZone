@@ -1,33 +1,35 @@
 using System.Collections.Generic;
 using System.Linq;
-using StaticData;
-using StaticData.MutantsData;
+using StaticData.Mutant;
+using StaticData.Player;
 using UnityEngine;
 
 namespace Services.StaticData
 {
     public class StaticDataSystem : IStaticDataSystem 
     {
-        private Dictionary<MutantTypeId, MutantStaticData> _mutants;
-        private Dictionary<string, LevelStaticData> _levels;
+        private List<MutantStaticData> _mutants;
+        private PlayerStaticData _player;
         
-        public void LoadMonsters()
+        public void LoadConfigs()
         {
-            _mutants = Resources.LoadAll<MutantStaticData>("StaticData/Mutants")
-                .ToDictionary(x => x.MutantTypeId, x => x);
-            
-            _levels = Resources.LoadAll<LevelStaticData>("StaticData/Levels")
-                .ToDictionary(x => x.LevelKey, x => x);
+            _mutants = Resources.LoadAll<MutantStaticData>("StaticData/Mutants").ToList();
+            _player = Resources.Load<PlayerStaticData>("StaticData/Player/PlayerStaticData");
         }
 
-        public MutantStaticData ForMutant(MutantTypeId TypeId)
+        public MutantStaticData GetMutant(int index)
         {
-            return _mutants.TryGetValue(TypeId, out MutantStaticData staticData) ? staticData : null;
+            return _mutants[index];
         }
-
-        public LevelStaticData ForLevel(string sceneKey)
+        
+        public PlayerStaticData GetPlayer()
         {
-            return _levels.TryGetValue(sceneKey, out LevelStaticData staticData) ? staticData : null;
+            return _player;
+        }
+        
+        public int MutantCount()
+        {
+            return _mutants.Count;
         }
     }
 }

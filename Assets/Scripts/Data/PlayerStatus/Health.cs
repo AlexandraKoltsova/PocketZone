@@ -5,8 +5,8 @@ namespace Data.PlayerStatus
     [Serializable]
     public class Health
     {
-        public float CurrentHP;
-        public float MaxHP;
+        public int CurrentHP;
+        public int MaxHP;
 
         public void ResetHP() => CurrentHP = MaxHP;
     }

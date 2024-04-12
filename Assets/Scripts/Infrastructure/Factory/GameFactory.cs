@@ -1,15 +1,11 @@
-using System.Collections.Generic;
 using Infrastructure.AssetManagement;
 using Logic;
-using Logic.Spawners;
 using Mutant;
 using Player;
 using Services;
-using Services.PersistentProgress;
 using Services.Randomizer;
-using Services.StaticData;
-using StaticData;
-using StaticData.MutantsData;
+using StaticData.Mutant;
+using StaticData.Player;
 using UI.HUD;
 using UnityEngine;
 using UnityEngine.AI;
@@ -19,107 +15,77 @@ namespace Infrastructure.Factory
     public class GameFactory : IGameFactory
     {
         private IAssetProvider _assets;
-        private IStaticDataSystem _staticData;
         private IRandomSystem _randomSystem;
         
-        public List<ISavedProgressReader> progressReaders { get; } = new List<ISavedProgressReader>();
-        public List<ISavedProgress> progressWriters { get; } = new List<ISavedProgress>();
-
-        private GameObject _player;
+        private GameObject _spawnerGameObject;
+        private GameObject _playerGameObject;
         private int _mutantId = 1;
-
-        public virtual void InitSystem()
+        
+        public GameFactory()
         {
             _assets = SystemsManager.Get<IAssetProvider>();
-            _staticData = SystemsManager.Get<IStaticDataSystem>();
             _randomSystem = SystemsManager.Get<IRandomSystem>();
         }
-        
-        public void Cleanup()
-        {
-            progressReaders.Clear();
-            progressWriters.Clear();
-        }
 
-        public GameObject CreatePlayer(GameObject at)
+        public GameObject CreatePlayer(PlayerStaticData playerData, GameObject at)
         {
-            _player = InstantiateRegistered(AssetsAddress.PlayerPrefabPath, at.transform.position);
-            return _player;
+            _playerGameObject = Instantiate(AssetsAddress.PlayerPrefabPath, at.transform.position);
+            
+            PlayerCharacter player = _playerGameObject.GetComponent<PlayerCharacter>();
+
+            _playerGameObject.GetComponent<PlayerHealth>().Current = playerData.MaxHP;
+            _playerGameObject.GetComponent<PlayerHealth>().Max = playerData.MaxHP;
+            _playerGameObject.GetComponent<PlayerMovement>().Construct(playerData.MoveSpeed);
+            _playerGameObject.GetComponent<AimZone>().Construct(playerData.AimRadius);
+            
+            player.ConstructAttack(playerData.Damage, playerData.BulletSpeed);
+            
+            return _playerGameObject;
         }
 
         public GameObject CreateHUD()
         {
-            return InstantiateRegistered(AssetsAddress.HUDPrefabPath);
+            GameObject hud = Instantiate(AssetsAddress.HUDPrefabPath);
+            hud.GetComponent<HealthController>().Construct(_playerGameObject.GetComponent<IHealth>());
+            
+            return hud;
         }
 
-        public GameObject CreateMutant(MutantTypeId TypeId, Transform parent)
+        public GameObject CreateMutant(MutantStaticData mutantData)
         {
-            MutantStaticData mutantData = _staticData.ForMutant(TypeId);
-
-            GameObject mutantDataPrefab = mutantData.Prefab;
-            Vector3 parentPosition = _randomSystem.RandomZone(parent.position);
-            GameObject mutant = Object.Instantiate(mutantDataPrefab, parentPosition, Quaternion.identity, parent);
-
-            MutantCharacter mutantCharacter = mutant.GetComponent<MutantCharacter>();
-            mutantCharacter.MutantId = _mutantId;
+            Vector2 spawnPoint = _randomSystem.GetRandomPositionAroundPlayer(_spawnerGameObject.transform.position, 10, 6);
+            GameObject mutantGameObject = Object.Instantiate(mutantData.Prefab, spawnPoint, Quaternion.identity, _spawnerGameObject.transform);
+            
+            mutantGameObject.GetComponent<MutantCharacter>().MutantId = _mutantId;
             _mutantId++;
             
-            IHealth health = mutant.GetComponent<IHealth>();
+            IHealth health = mutantGameObject.GetComponent<IHealth>();
             health.Current = mutantData.Hp;
             health.Max = mutantData.Hp;
+            
+            mutantGameObject.GetComponent<HealthController>().Construct(health);
+            mutantGameObject.GetComponent<AgentMoveToPlayer>().Construct(_playerGameObject.transform);
+            mutantGameObject.GetComponent<NavMeshAgent>().speed = mutantData.MoveSpeed;
+            
+            mutantGameObject.GetComponent<MutantAttack>()
+                .Construct(mutantData.Damage, mutantData.AttackColldown, mutantData.CLeavage, mutantData.EffectiveDistance);
+            
+            return mutantGameObject;
+        }
 
-            mutant.GetComponent<HealthController>().Construct(health);
-            mutant.GetComponent<AgentMoveToPlayer>().Construct(_player.transform);
-            mutant.GetComponent<NavMeshAgent>().speed = mutantData.MoveSpeed;
-
-            MutantAttack attack = mutant.GetComponent<MutantAttack>();
-            attack.Damage = mutantData.Damage;
-            attack.AttackColldown = mutantData.AttackColldown;
-            attack.CLeavage = mutantData.CLeavage;
-            attack.EffectiveDistance = mutantData.EffectiveDistance;
-
-            return mutant;
+        public void CreateSpawner(Vector3 at)
+        {
+            _spawnerGameObject = Instantiate(AssetsAddress.SpawnerPrefabPath, at);
         }
         
-        public void CreateSpawner(Vector3 at, string spawnerId, MutantTypeId mutantTypeId)
+        private GameObject Instantiate(string prefabPath, Vector3 at)
         {
-            MutantSpawner spawner = InstantiateRegistered(AssetsAddress.SpawnerPrefabPath, at).GetComponent<MutantSpawner>();
-
-            spawner.Construct(this);
-            spawner.Id = spawnerId;
-            spawner.MutantTypeId = mutantTypeId;
+            return _assets.Instantiate(prefabPath, at);
         }
-
-        private GameObject InstantiateRegistered(string prefabPath, Vector3 at)
+        
+        private GameObject Instantiate(string prefabPath)
         {
-            GameObject gameObject = _assets.Instantiate(prefabPath, at);
-            RegisterProgressWatchers(gameObject);
-            return gameObject;
-        }
-
-        private GameObject InstantiateRegistered(string prefabPath)
-        {
-            GameObject gameObject = _assets.Instantiate(prefabPath);
-            RegisterProgressWatchers(gameObject);
-            return gameObject;
-        }
-
-        private void RegisterProgressWatchers(GameObject gameObject)
-        {
-            foreach (ISavedProgressReader progressReader in gameObject.GetComponentsInChildren<ISavedProgressReader>())
-            {
-                Register(progressReader);
-            }
-        }
-
-        private void Register(ISavedProgressReader progressReader)
-        {
-            if (progressReader is ISavedProgress progressWriter)
-            {
-                progressWriters.Add(progressWriter);
-            }
-            
-            progressReaders.Add(progressReader);
+            return _assets.Instantiate(prefabPath);
         }
     }
 }

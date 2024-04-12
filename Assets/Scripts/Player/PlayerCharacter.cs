@@ -31,8 +31,9 @@ namespace Player
         [SerializeField] private PlayerShooting _playerShooting;
         [SerializeField] private ZoneObserver _zoneObserver;
 
-        [Header("Properties")]
-        [SerializeField] private float _movementSpeed;
+        [Header("Bullets")]
+        [SerializeField] private int _damage;
+        [SerializeField] private int _bulletSpeed;
         [SerializeField] private GameObject[] _bullets;
 
         private IInputSystem _inputSystem;
@@ -50,12 +51,26 @@ namespace Player
             _zoneObserver = GetComponentInChildren<ZoneObserver>();
         }
 
+        public void ConstructSystems()
+        {
+            _inputSystem = SystemsManager.Get<IInputSystem>();
+            _saveLoadSystem = SystemsManager.Get<ISaveLoadSystem>();
+        }
+        
+        public void ConstructAttack(int damage, int bulletSpeed)
+        {
+            _damage = damage;
+            _bulletSpeed = bulletSpeed;
+        }
+        
         private void Awake()
         {
-            _inputSystem = AllServices.Container.Single<IInputSystem>();
-            _saveLoadSystem = AllServices.Container.Single<ISaveLoadSystem>();
+            ConstructSystems();
             
-            _playerMovement.Init(_inputSystem, _saveLoadSystem, _rb, _collider, _mesh, _movementSpeed);
+            foreach (GameObject bullet in _bullets) 
+                bullet.GetComponent<Bullet>().Construct(_damage, _bulletSpeed);
+            
+            _playerMovement.Init(_inputSystem, _saveLoadSystem, _rb, _collider, _mesh);
             _aimZone.Init(_zoneObserver, _aimCollider);
             _playerAim.Init(_inputSystem, _aimZone, _aimPoint, _gunEndPointPosition);
             _playerAnimator.Init(_animator, _rb);
@@ -70,7 +85,7 @@ namespace Player
             _aimZone.Startup();
             _playerShooting.Startup();
         }
-
+        
         private void Update()
         {
             _playerAnimator.Tick();

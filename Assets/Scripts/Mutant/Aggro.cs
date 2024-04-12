@@ -6,13 +6,11 @@ namespace Mutant
     public class Aggro : MonoBehaviour
     {
         private ZoneObserver _triggerObserver;
-        private AgentMoveToPlayer _followAgent;
         private bool _canMove;
         
-        public void Init(ZoneObserver triggerObserver, AgentMoveToPlayer followAgent)
+        public void Init(ZoneObserver triggerObserver)
         {
             _triggerObserver = triggerObserver;
-            _followAgent = followAgent;
         }  
         
         public void Startup()

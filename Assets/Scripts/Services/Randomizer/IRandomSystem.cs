@@ -4,6 +4,8 @@ namespace Services.Randomizer
 {
     public interface IRandomSystem : ISystem
     {
-        public Vector3 RandomZone(Vector3 position);
+        public int RandomIndex(int maxIndex);
+
+        public Vector2 GetRandomPositionAroundPlayer(Vector2 playerPosition, float spawnRadius, float safeDistance);
     }
 }

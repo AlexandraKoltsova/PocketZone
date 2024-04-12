@@ -10,13 +10,7 @@ namespace Mutant
 
         private NavMeshAgent _agent;
         private Transform _mesh;
-
         private Transform _playerTransform;
-        
-        public void Construct(Transform playerTransform)
-        {
-            _playerTransform = playerTransform;
-        }
 
         public void Init(NavMeshAgent agent, Transform mesh)
         {
@@ -27,6 +21,11 @@ namespace Mutant
             _agent.updateUpAxis = false;
         }
 
+        public void Construct(Transform playerTransform)
+        {
+            _playerTransform = playerTransform;
+        }
+        
         public void Tick(bool canMove)
         {
             if (!canMove)
@@ -35,18 +34,12 @@ namespace Mutant
             }
             
             if (Initialized() && HeroNotReached())
-            {
                 _agent.destination = _playerTransform.position;
-            }
             
             if (_agent.velocity.x < Constants.Epsilon)
-            {
                 ChangeDirection(-1);
-            }
             else
-            {
                 ChangeDirection(1);
-            }
         }
 
         private void ChangeDirection(int x)

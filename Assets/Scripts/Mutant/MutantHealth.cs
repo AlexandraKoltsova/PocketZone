@@ -10,27 +10,33 @@ namespace Mutant
 
         public event Action HealthChanged;
         
-        [SerializeField] private float _current;
-        [SerializeField] private float _max;
+        private int _current;
+        private int _max;
 
         public void Init(MutantAnimator animator)
         {
             _animator = animator;
         }
+
+        public void Construct(int health)
+        {
+            Current = health;
+            Max = health;
+        }
         
-        public float Current
+        public int Current
         {
             get => _current;
             set => _current = value;
         }
 
-        public float Max
+        public int Max
         {
             get => _max;
             set => _max = value;
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(int damage)
         {
             Current -= damage;
             _animator.PlayHit();

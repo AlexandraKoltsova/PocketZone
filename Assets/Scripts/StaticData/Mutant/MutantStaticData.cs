@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace StaticData.MutantsData
+namespace StaticData.Mutant
 {
     [CreateAssetMenu(fileName = "StaticData", menuName = "StaticData/Mutant")]
     public class MutantStaticData : ScriptableObject
@@ -10,8 +10,8 @@ namespace StaticData.MutantsData
         [Range(1, 100)]
         public int Hp;
 
-        [Range(1f, 30f)]
-        public float Damage;
+        [Range(1, 30)]
+        public int Damage;
         
         [Range(1f, 10f)]
         public float AttackColldown;
@@ -23,9 +23,8 @@ namespace StaticData.MutantsData
         public float CLeavage;
 
         [Range(0, 10)]
-        public float MoveSpeed = 3;
+        public int MoveSpeed = 3;
 
         public GameObject Prefab;
-
     }
 }

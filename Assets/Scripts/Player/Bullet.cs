@@ -1,4 +1,3 @@
-using Data.PlayerStatus;
 using Logic;
 using UnityEngine;
 
@@ -7,12 +6,16 @@ namespace Player
     public class Bullet : MonoBehaviour
     {
         private Vector3 _direction;
-        private float _damage;
+        private int _damage;
         private float _speed;
         private float _lifetime;
 
-        private Stats _stats;
-
+        public void Construct(int damage, int speed)
+        {
+            _damage = damage;
+            _speed = speed;
+        }
+        
         private void Start()
         {
             gameObject.SetActive(false);
@@ -38,13 +41,11 @@ namespace Player
             }
         }
 
-        public void SetDirection(Vector3 direction, float damage, float speed)
+        public void SetDirection(Vector3 direction)
         {
             gameObject.SetActive(true);
             _lifetime = 0;
             _direction = direction;
-            _damage = damage;
-            _speed = speed;
 
             transform.eulerAngles = new Vector3(0, 0, GetAngleFromVectorFloat(direction));
         }

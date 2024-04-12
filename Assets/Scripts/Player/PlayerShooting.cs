@@ -1,20 +1,11 @@
-using Data;
-using Data.PlayerStatus;
-using Services.PersistentProgress;
 using UnityEngine;
 
 namespace Player
 {
-    public class PlayerShooting : MonoBehaviour, ISavedProgressReader
+    public class PlayerShooting : MonoBehaviour
     {
         private PlayerAim _aim;
         private GameObject[] _bullets;
-        private Stats _stats;
-
-        public void LoadProgress(PlayerProgress progress)
-        {
-            _stats = progress.Stats;
-        }
 
         public void Init(PlayerAim aim, GameObject[] bullets)
         {
@@ -35,7 +26,7 @@ namespace Player
             _bullets[index].transform.position = obj.GunEndPointPosition;
 
             Vector3 direction = ((obj.ShootPosition + Vector3.up) - obj.GunEndPointPosition).normalized;
-            _bullets[index].GetComponent<Bullet>().SetDirection(direction, _stats.Damage, _stats.Speed);
+            _bullets[index].GetComponent<Bullet>().SetDirection(direction);
         }
 
         private int FindBullet()

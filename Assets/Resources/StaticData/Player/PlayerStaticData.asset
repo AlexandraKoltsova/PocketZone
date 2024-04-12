@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5479fd7ca1024dc5b81b6dcf905bb2b7, type: 3}
-  m_Name: Flesh
+  m_Script: {fileID: 11500000, guid: dc1c3dbb2e154f499c403c3afe39ab8e, type: 3}
+  m_Name: PlayerStaticData
   m_EditorClassIdentifier: 
-  MutantTypeId: 1
-  Hp: 100
-  Damage: 15
-  AttackColldown: 5
-  EffectiveDistance: 1
-  CLeavage: 2
+  MaxHP: 50
+  Damage: 10
   MoveSpeed: 3
-  Prefab: {fileID: 3386926697230099771, guid: 3822202d3c7c33e43a426a8ea0531cd5, type: 3}
+  BulletSpeed: 3
+  AimRadius: 2

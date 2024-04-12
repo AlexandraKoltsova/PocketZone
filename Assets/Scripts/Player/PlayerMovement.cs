@@ -11,25 +11,29 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour, ISavedProgress
     {
-        private float _movementSpeed = 4f;
-        
         private Rigidbody2D _rb;
         private Collider2D _collider;
         private Transform _mesh;
-        
+
         private IInputSystem _inputSystem;
         private ISaveLoadSystem _saveLoadSystem;
 
-        public void Init(IInputSystem inputSystem, ISaveLoadSystem saveLoadSystem, Rigidbody2D rb, Collider2D collider, Transform mesh, float movementSpeed)
+        private float _movementSpeed;
+
+        public void Init(IInputSystem inputSystem, ISaveLoadSystem saveLoadSystem, Rigidbody2D rb, Collider2D collider, Transform mesh)
         {
-            this._inputSystem = inputSystem;
-            this._saveLoadSystem = saveLoadSystem;
+            _inputSystem = inputSystem;
+            _saveLoadSystem = saveLoadSystem;
             _rb = rb;
             _collider = collider;
             _mesh = mesh;
-            _movementSpeed = movementSpeed;
         }
 
+        public void Construct(int speed)
+        {
+            _movementSpeed = speed;
+        }
+        
         public void FixedTick(bool canMove)
         {
             if (!canMove)

@@ -1,13 +1,15 @@
-using StaticData;
-using StaticData.MutantsData;
+using StaticData.Mutant;
+using StaticData.Player;
 
 namespace Services.StaticData
 {
     public interface IStaticDataSystem : ISystem
     {
-        public MutantStaticData ForMutant(MutantTypeId TypeId);
-        public LevelStaticData  ForLevel(string sceneKey);
-        
-        public void LoadMonsters();
+        public void LoadConfigs();
+
+        public MutantStaticData GetMutant(int index);
+        public PlayerStaticData GetPlayer();
+
+        public int MutantCount();
     }
 }

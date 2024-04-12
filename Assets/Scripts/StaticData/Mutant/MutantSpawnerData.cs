@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace StaticData.MutantsData
+namespace StaticData.Mutant
 {
     [Serializable]
     public class MutantSpawnerData

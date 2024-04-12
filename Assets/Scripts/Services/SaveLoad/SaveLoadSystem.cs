@@ -12,17 +12,16 @@ namespace Services.SaveLoad
         private const string ProgressKey = "Progress";
         private const string MainSaveKey = "MAIN_SAVE";
         
-        private IPersistentProgressSystem _progressSystem;
-        private IGameFactory _gameFactory;
-
         private List<SaveData> _saveData = new List<SaveData>();
+        private IGameFactory _gameFactory;
+        private IPersistentProgressSystem _persistentProgress;
 
-        public virtual void InitSystem()
+        public SaveLoadSystem()
         {
-            _progressSystem = SystemsManager.Get<IPersistentProgressSystem>();
             _gameFactory = SystemsManager.Get<IGameFactory>();
+            _persistentProgress = SystemsManager.Get<IPersistentProgressSystem>();
         }
-        
+
         public void Save()
         {
             var loadSystems = SystemsManager.GetAll<ILoadSystem>();
@@ -31,14 +30,11 @@ namespace Services.SaveLoad
                 var newData = system.GetSaveData();
                 
                 var existData = _saveData.FirstOrDefault(d => d.Key == system.SaveKey);
+                
                 if (existData == null)
-                {
                     _saveData.Add(newData);
-                }
                 else
-                {
                     existData.Json = newData.Json;
-                }
             }
 
             var json = JsonUtility.ToJson(_saveData);
@@ -52,7 +48,7 @@ namespace Services.SaveLoad
             var mainData = JsonUtility.FromJson<List<SaveData>>(PlayerPrefs.GetString(MainSaveKey));
             if (mainData == null) return;
             _saveData = mainData;
-
+            
             var loadSystems = SystemsManager.GetAll<ILoadSystem>();
             foreach (var system in loadSystems)
             {

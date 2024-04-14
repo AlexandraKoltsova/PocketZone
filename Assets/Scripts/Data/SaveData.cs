@@ -1,6 +1,6 @@
 using System;
 
-namespace Services.SaveLoad
+namespace Data
 {
     [Serializable]
     public class SaveData

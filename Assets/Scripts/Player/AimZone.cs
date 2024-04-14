@@ -8,6 +8,8 @@ namespace Player
 {
     public class AimZone : MonoBehaviour
     {
+        public float AimRadius;
+        
         private ZoneObserver _triggerObserver;
         private CircleCollider2D _collider;
 
@@ -15,15 +17,8 @@ namespace Player
         private Transform _currentTarget;
 
         private float _minDistance = Mathf.Infinity;
-        private float _aimRadius;
-
         public event Action<Transform> GetTarget;
         public event Action TargetEnable, TargetDisable;
-
-        public void Construct( int aimRadius)
-        {
-            _aimRadius = aimRadius;
-        }
         
         public void Init(ZoneObserver triggerObserver, CircleCollider2D collider)
         {
@@ -57,7 +52,7 @@ namespace Player
 
         private void SetAimRadius()
         {
-            _collider.radius = _aimRadius;
+            _collider.radius = AimRadius;
         }
 
         private Transform SetNearestTarget()

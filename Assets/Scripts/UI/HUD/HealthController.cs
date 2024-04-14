@@ -23,7 +23,7 @@ namespace UI.HUD
                 Construct(health);
         }
         
-        private void UpdateHealthBar()
+        public void UpdateHealthBar()
         {
             _healthBar.SetValue(_health.Current, _health.Max);
         }

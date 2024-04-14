@@ -30,11 +30,9 @@ namespace Player
         [SerializeField] private AimZone _aimZone;
         [SerializeField] private PlayerShooting _playerShooting;
         [SerializeField] private ZoneObserver _zoneObserver;
-
+        
         [Header("Bullets")]
-        [SerializeField] private int _damage;
-        [SerializeField] private int _bulletSpeed;
-        [SerializeField] private GameObject[] _bullets;
+        public GameObject[] Bullets;
 
         private IInputSystem _inputSystem;
         private ISaveLoadSystem _saveLoadSystem;
@@ -51,32 +49,23 @@ namespace Player
             _zoneObserver = GetComponentInChildren<ZoneObserver>();
         }
 
-        public void ConstructSystems()
+        private void ConstructSystems()
         {
             _inputSystem = SystemsManager.Get<IInputSystem>();
             _saveLoadSystem = SystemsManager.Get<ISaveLoadSystem>();
-        }
-        
-        public void ConstructAttack(int damage, int bulletSpeed)
-        {
-            _damage = damage;
-            _bulletSpeed = bulletSpeed;
         }
         
         private void Awake()
         {
             ConstructSystems();
             
-            foreach (GameObject bullet in _bullets) 
-                bullet.GetComponent<Bullet>().Construct(_damage, _bulletSpeed);
-            
-            _playerMovement.Init(_inputSystem, _saveLoadSystem, _rb, _collider, _mesh);
+            _playerMovement.Init(_inputSystem, _rb, _collider, _mesh);
             _aimZone.Init(_zoneObserver, _aimCollider);
             _playerAim.Init(_inputSystem, _aimZone, _aimPoint, _gunEndPointPosition);
             _playerAnimator.Init(_animator, _rb);
             _playerHealth.Init(_playerAnimator);
             _playerDeath.Init(_playerAnimator, _playerHealth);
-            _playerShooting.Init(_playerAim, _bullets);
+            _playerShooting.Init(_playerAim, Bullets);
         }
         
         private void Start()
@@ -96,6 +85,12 @@ namespace Player
         private void FixedUpdate()
         {
             _playerMovement.FixedTick(!_playerDeath.PlayerDead());
+        }
+        
+        private void OnDisable()
+        {
+            Debug.Log("Save");
+            _saveLoadSystem.Save();
         }
     }
 }

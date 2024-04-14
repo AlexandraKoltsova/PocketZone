@@ -14,7 +14,7 @@ namespace StaticData.Mutant
         public int Damage;
         
         [Range(1f, 10f)]
-        public float AttackColldown;
+        public float AttackCooldown;
 
         [Range(0.5f, 5f)]
         public float EffectiveDistance;

@@ -3,7 +3,6 @@ using Infrastructure.Factory;
 using Services;
 using Services.Input;
 using Services.Inventory;
-using Services.PersistentProgress;
 using Services.Randomizer;
 using Services.SaveLoad;
 using Services.Spawner;
@@ -52,7 +51,6 @@ namespace Infrastructure.States
             SystemsManager.AddInstance(GetInputSystem(), true);
             SystemsManager.Add<RandomSystem>(true);
             SystemsManager.Add<AssetProvider>(true);
-            SystemsManager.Add<PersistentProgressSystem>(true);
             SystemsManager.Add<InventorySystem>(true);
             
             IStaticDataSystem staticData = (StaticDataSystem)SystemsManager.Add<StaticDataSystem>(true);
@@ -64,6 +62,7 @@ namespace Infrastructure.States
             SystemsManager.Add<PlayerSpawnSystem>(true);
             SystemsManager.Add<HUDSpawnSystem>(true);
             SystemsManager.Add<MutantSpawnSystem>(true);
+            SystemsManager.Add<LootSpawnSystem>(true);
         }
 
         private static IInputSystem GetInputSystem()

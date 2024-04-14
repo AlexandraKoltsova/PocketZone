@@ -9,12 +9,6 @@ namespace Player
         private int _damage;
         private float _speed;
         private float _lifetime;
-
-        public void Construct(int damage, int speed)
-        {
-            _damage = damage;
-            _speed = speed;
-        }
         
         private void Start()
         {
@@ -41,12 +35,14 @@ namespace Player
             }
         }
 
-        public void SetDirection(Vector3 direction)
+        public void SetDirection(Vector3 direction, int damage, int speed)
         {
             gameObject.SetActive(true);
             _lifetime = 0;
             _direction = direction;
-
+            _damage = damage;
+            _speed = speed;
+            
             transform.eulerAngles = new Vector3(0, 0, GetAngleFromVectorFloat(direction));
         }
 

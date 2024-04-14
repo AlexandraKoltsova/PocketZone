@@ -37,11 +37,11 @@ namespace Mutant
             _layerMask = 1 << LayerMask.NameToLayer("Player");
         }
 
-        public void Construct(int damage, float attackCooldown, float CLeavag, float effectiveDistance)
+        public void Construct(int damage, float attackCooldown, float CLeavage, float effectiveDistance)
         {
             _damage = damage;
             _attackColldown = attackCooldown;
-            _CLeavage = CLeavag;
+            _CLeavage = CLeavage;
             _effectiveDistance = effectiveDistance;
         }
         

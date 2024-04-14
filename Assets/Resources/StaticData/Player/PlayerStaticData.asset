@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerStaticData
   m_EditorClassIdentifier: 
   MaxHP: 50
-  Damage: 10
   MoveSpeed: 3
-  BulletSpeed: 3
-  AimRadius: 2
+  AimRadius: 4.5
+  Damage: 10
+  BulletSpeed: 8

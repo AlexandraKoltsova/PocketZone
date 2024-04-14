@@ -15,7 +15,7 @@ MonoBehaviour:
   MutantTypeId: 0
   Hp: 60
   Damage: 5
-  AttackColldown: 2
+  AttackCooldown: 1
   EffectiveDistance: 1
   CLeavage: 1.5
   MoveSpeed: 2

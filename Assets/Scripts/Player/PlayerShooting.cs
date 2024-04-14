@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -7,6 +8,9 @@ namespace Player
         private PlayerAim _aim;
         private GameObject[] _bullets;
 
+        public int Damage;
+        public int BulletSpeed;
+        
         public void Init(PlayerAim aim, GameObject[] bullets)
         {
             _aim = aim;
@@ -26,7 +30,7 @@ namespace Player
             _bullets[index].transform.position = obj.GunEndPointPosition;
 
             Vector3 direction = ((obj.ShootPosition + Vector3.up) - obj.GunEndPointPosition).normalized;
-            _bullets[index].GetComponent<Bullet>().SetDirection(direction);
+            _bullets[index].GetComponent<Bullet>().SetDirection(direction, Damage, BulletSpeed);
         }
 
         private int FindBullet()

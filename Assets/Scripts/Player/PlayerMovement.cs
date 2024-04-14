@@ -1,37 +1,25 @@
 using DefaultNamespace;
-using Data;
-using Data.Position;
 using Services.Input;
-using Services.PersistentProgress;
-using Services.SaveLoad;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Player
 {
-    public class PlayerMovement : MonoBehaviour, ISavedProgress
+    public class PlayerMovement : MonoBehaviour
     {
+        public int MoveSpeed;
+        
         private Rigidbody2D _rb;
         private Collider2D _collider;
         private Transform _mesh;
 
         private IInputSystem _inputSystem;
-        private ISaveLoadSystem _saveLoadSystem;
-
-        private float _movementSpeed;
-
-        public void Init(IInputSystem inputSystem, ISaveLoadSystem saveLoadSystem, Rigidbody2D rb, Collider2D collider, Transform mesh)
+        
+        public void Init(IInputSystem inputSystem, Rigidbody2D rb, Collider2D collider, Transform mesh)
         {
             _inputSystem = inputSystem;
-            _saveLoadSystem = saveLoadSystem;
             _rb = rb;
             _collider = collider;
             _mesh = mesh;
-        }
-
-        public void Construct(int speed)
-        {
-            _movementSpeed = speed;
         }
         
         public void FixedTick(bool canMove)
@@ -48,20 +36,16 @@ namespace Player
                 movementVector = _inputSystem.Axis;
                 
                 if (_inputSystem.Axis.x < Constants.Epsilon)
-                {
                     ChangeDirection(-1);
-                }
                 else
-                {
                     ChangeDirection(1);
-                }
             }
             else
             {
                 movementVector = Vector2.zero;
             }
             
-            _rb.velocity = _movementSpeed * movementVector.normalized;
+            _rb.velocity = MoveSpeed * movementVector.normalized;
         }
 
         private void ChangeDirection(float x)
@@ -69,7 +53,7 @@ namespace Player
             _mesh.transform.localScale = new Vector3(x, 1, 1);
         }
 
-        public void SaveProgress(PlayerProgress progress)
+        /*public void SaveProgress(PlayerProgress progress)
         {
             progress.WorldData.PositionOnLevel = new PositionOnLevel(CurrentLevel(), transform.position.AsVectorData());
         }
@@ -94,12 +78,6 @@ namespace Player
         private static string CurrentLevel()
         {
             return SceneManager.GetActiveScene().name;
-        }
-
-        private void OnDisable()
-        {
-            _saveLoadSystem.Save();
-            Debug.Log("Progress Saved.");
-        }
+        }*/
     }
 }

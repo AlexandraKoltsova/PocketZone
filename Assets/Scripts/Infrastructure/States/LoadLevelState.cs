@@ -15,6 +15,7 @@ namespace Infrastructure.States
         private IMutantSpawnSystem _mutantSpawn;
         private IPlayerSpawnSystem _playerSpawn;
         private IHUDSpawnSystem _hudSpawn;
+        private ILootSpawnSystem _lootSpawn;
 
         public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
         {
@@ -25,6 +26,7 @@ namespace Infrastructure.States
             _mutantSpawn = SystemsManager.Get<IMutantSpawnSystem>();
             _playerSpawn = SystemsManager.Get<IPlayerSpawnSystem>();
             _hudSpawn = SystemsManager.Get<IHUDSpawnSystem>();
+            _lootSpawn = SystemsManager.Get<ILootSpawnSystem>();
         }
 
         public void Enter(string sceneName)
@@ -49,8 +51,9 @@ namespace Infrastructure.States
             _playerSpawn.InitPlayer();
             _mutantSpawn.InitSpawner();
             _hudSpawn.InitHUD();
+            _lootSpawn.InitCollectibleHolder();
             
-            CameraFollow(_playerSpawn.GetPlayerTransform());
+            CameraFollow(_playerSpawn.GetPlayer().transform);
         }
 
         private static void CameraFollow(Transform player)

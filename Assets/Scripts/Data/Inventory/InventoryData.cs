@@ -6,6 +6,6 @@ namespace Data.Inventory
     [Serializable]
     public class InventoryData
     {
-         public List<InventoryItemSaveData> InventoryItems = new List<InventoryItemSaveData>();
+         public List<InventoryItemsSaveData> InventoryItems = new List<InventoryItemsSaveData>();
     }
 }

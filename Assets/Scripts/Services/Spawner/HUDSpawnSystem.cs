@@ -1,5 +1,6 @@
 using Infrastructure.Factory;
 using Logic;
+using Services.Inventory;
 using UI.HUD;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace Services.Spawner
     {
         private IGameFactory _gameFactory;
         private IPlayerSpawnSystem _playerSpawn;
+        private IInventorySystem _inventorySystem;
         
         private GameObject _hudGameObject;
         
@@ -16,6 +18,7 @@ namespace Services.Spawner
         {
             _gameFactory = SystemsManager.Get<IGameFactory>();
             _playerSpawn = SystemsManager.Get<IPlayerSpawnSystem>();
+            _inventorySystem = SystemsManager.Get<IInventorySystem>();
         }
 
         public void InitHUD()
@@ -25,6 +28,9 @@ namespace Services.Spawner
             HealthController healthController = _hudGameObject.GetComponent<HealthController>();
             healthController.Construct(_playerSpawn.GetPlayer().GetComponent<IHealth>());
             healthController.UpdateHealthBar();
+            
+            InventoryView inventoryView = _hudGameObject.GetComponentInChildren<InventoryView>();
+            inventoryView.Construct(_inventorySystem);
         }
     }
 }

@@ -4,12 +4,12 @@ namespace UI.HUD
 {
     public class InventoryButton : MonoBehaviour
     {
-        [SerializeField] private InventoryPageView _inventoryPage;
+        [SerializeField] private InventoryView _inventoryView;
         private bool _isDisable;
 
         protected void Start()
         {
-            _inventoryPage.Hide();
+            _inventoryView.Hide();
             _isDisable = true;
         }
 
@@ -17,21 +17,21 @@ namespace UI.HUD
         {
             if (_isDisable)
             {
-                _inventoryPage.Show();
+                _inventoryView.Show();
                 _isDisable = false;
             }
             else
             {
-                _inventoryPage.Hide();
+                _inventoryView.Hide();
                 _isDisable = true;
             }
         }
         
         private void OnValidate()
         {
-            if (_inventoryPage == null)
+            if (_inventoryView == null)
             {
-                _inventoryPage = GetComponent<InventoryPageView>();
+                _inventoryView = GetComponent<InventoryView>();
             }
         }
     }

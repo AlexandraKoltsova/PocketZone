@@ -2,8 +2,9 @@ namespace Logic.Inventory
 {
     public enum ItemType
     {
-        Weapon = 0,
-        Armor = 1,
-        Food = 2,
+        None = 0,
+        Weapon = 1,
+        Armor = 2,
+        Food = 3,
     }
 }

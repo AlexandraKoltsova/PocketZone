@@ -51,7 +51,6 @@ namespace Infrastructure.States
             SystemsManager.AddInstance(GetInputSystem(), true);
             SystemsManager.Add<RandomSystem>(true);
             SystemsManager.Add<AssetProvider>(true);
-            SystemsManager.Add<InventorySystem>(true);
             
             IStaticDataSystem staticData = (StaticDataSystem)SystemsManager.Add<StaticDataSystem>(true);
             staticData.LoadConfigs();
@@ -60,9 +59,10 @@ namespace Infrastructure.States
             _saveLoadSystem = (SaveLoadSystem)SystemsManager.Add<SaveLoadSystem>(true);
             
             SystemsManager.Add<PlayerSpawnSystem>(true);
-            SystemsManager.Add<HUDSpawnSystem>(true);
-            SystemsManager.Add<MutantSpawnSystem>(true);
             SystemsManager.Add<LootSpawnSystem>(true);
+            SystemsManager.Add<MutantSpawnSystem>(true);
+            SystemsManager.Add<InventorySystem>(true);
+            SystemsManager.Add<HUDSpawnSystem>(true);
         }
 
         private static IInputSystem GetInputSystem()

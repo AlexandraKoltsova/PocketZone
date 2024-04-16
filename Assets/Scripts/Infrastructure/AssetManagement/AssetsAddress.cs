@@ -8,5 +8,6 @@ namespace Infrastructure.AssetManagement
         public const string LootPrefabPath = "Item/DroppedItem";
         
         public const string PlayerStatsSaveKey = "PLAYER_STATS_SAVE";
+        public const string InventorySaveKey = "INVENTORY_SAVE";
     }
 }

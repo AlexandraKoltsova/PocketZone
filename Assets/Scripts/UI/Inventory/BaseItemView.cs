@@ -7,11 +7,6 @@ namespace UI.Inventory
     {
         public ItemData ItemData { get; protected set; }
         
-        public virtual void Init()
-        {
-            
-        }
-        
         public virtual void SetData(ItemData itemData)
         {
             ItemData = itemData;

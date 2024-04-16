@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using StaticData.Inventory;
 using StaticData.Mutant;
 using StaticData.Player;
 
@@ -8,8 +10,10 @@ namespace Services.StaticData
         public void LoadConfigs();
 
         public MutantStaticData GetMutant(int index);
-        public PlayerStaticData GetPlayer();
+        public int MutantsCount();
 
-        public int MutantCount();
+        public List<ItemConfig> GetItemConfigs();
+        
+        public PlayerStaticData GetPlayer();
     }
 }

@@ -6,14 +6,25 @@ namespace UI.Inventory
     public class DroppedItemView : BaseItemView
     {
         [SerializeField] private SpriteRenderer _sprite;
-        
+        [SerializeField] private CircleCollider2D _collider;
+
         protected override void Redraw()
         {
             base.Redraw();
 
-            if (ItemData == null) return;
+            if (ItemData == null)
+            {
+                _collider.enabled = false;
+                return;
+            }
 
             _sprite.sprite = ItemData.Sprite;
+            _collider.enabled = true;
+        }
+
+        public void DestroyItem()
+        {
+            Destroy(gameObject);
         }
 
         private void OnValidate()

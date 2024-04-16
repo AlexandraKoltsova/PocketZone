@@ -10,10 +10,9 @@ namespace Mutant
         private MutantHealth _health;
         private MutantAnimator _animator;
         private Aggro _aggro;
-        private NavMeshAgent _agent;
         private AgentMoveToPlayer _agentMove;
 
-        public event Action Happened;
+        public event Action<Transform> Happened;
         public event Action OnDead;
         
         public void Init(MutantHealth health, MutantAnimator animator, Aggro aggro, NavMeshAgent agent, AgentMoveToPlayer agentMove)
@@ -21,7 +20,6 @@ namespace Mutant
             _health = health;
             _animator = animator;
             _aggro = aggro;
-            _agent = agent;
             _agentMove = agentMove;
         }  
         
@@ -50,7 +48,7 @@ namespace Mutant
             
             StartCoroutine(DestroyTimer());
 
-            Happened?.Invoke();
+            Happened?.Invoke(transform);
         }
 
         private IEnumerator DestroyTimer()

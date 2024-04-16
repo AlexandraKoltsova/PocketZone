@@ -5,23 +5,38 @@ namespace Logic.Inventory
 {
     public class ItemData
     {
-        public readonly int Id;
-        public readonly Sprite Sprite;
-        public readonly ItemType ItemType;
-        public readonly EquipType EquipType;
-        public int Amount { get; private set; }
+        public bool IsReserved;
+        
+        public int Id;
+        public Sprite Sprite;
+        public ItemType ItemType;
+        public EquipType EquipType;
+        public int Amount { get; set; }
 
-        private readonly bool _isStackable;
+        private bool _isStackable;
 
-        public ItemData(ItemConfig config)
+        public void SetData(ItemConfig config)
         {
             Id = config.ID;
             Sprite = config.Image;
             _isStackable = config.IsStackable;
             ItemType = config.ItemType;
             EquipType = config.EquipType;
-
+            IsReserved = true;
+            
             Amount = 1;
+        }
+        
+        public void SetEmpty()
+        {
+            Id = 0;
+            Amount = 0;
+            Sprite = null;
+            _isStackable = false;
+            IsReserved = false;
+
+            ItemType = ItemType.None;
+            EquipType = EquipType.None;
         }
 
         public int ChangeAmount(int value)

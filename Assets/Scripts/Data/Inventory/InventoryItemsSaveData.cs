@@ -3,10 +3,10 @@ using System;
 namespace Data.Inventory
 {
     [Serializable]
-    public class InventoryItemSaveData
+    public class InventoryItemsSaveData
     {
         public int Id;
         public int Amount;
-        public bool IsEquiped;
+        public bool IsReserved;
     }
 }

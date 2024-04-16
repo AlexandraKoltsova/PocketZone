@@ -12,7 +12,7 @@ namespace Infrastructure.Factory
         public GameObject CreateMutant(MutantStaticData mutantData, Vector2 spawnPoint, Transform parent);
         public GameObject CreateSpawner(Vector2 at);
 
-        public GameObject CreateCollectibleHolder(Vector2 at);
+        public GameObject CreateLootHolder(Vector2 at);
         public GameObject CreateLoot(Vector2 at, Transform parent);
     }
 }

@@ -1,6 +1,7 @@
 using Logic;
 using Services;
 using Services.Input;
+using Services.Inventory;
 using Services.SaveLoad;
 using UnityEngine;
 
@@ -30,12 +31,14 @@ namespace Player
         [SerializeField] private AimZone _aimZone;
         [SerializeField] private PlayerShooting _playerShooting;
         [SerializeField] private ZoneObserver _zoneObserver;
+        [SerializeField] private PickUp _pickUp;
         
         [Header("Bullets")]
         public GameObject[] Bullets;
 
         private IInputSystem _inputSystem;
         private ISaveLoadSystem _saveLoadSystem;
+        private IInventorySystem _inventorySystem;
 
         private void OnValidate()
         {
@@ -47,12 +50,14 @@ namespace Player
             _aimZone = GetComponent<AimZone>();
             _playerShooting = GetComponent<PlayerShooting>();
             _zoneObserver = GetComponentInChildren<ZoneObserver>();
+            _pickUp = GetComponentInChildren<PickUp>();
         }
 
         private void ConstructSystems()
         {
             _inputSystem = SystemsManager.Get<IInputSystem>();
             _saveLoadSystem = SystemsManager.Get<ISaveLoadSystem>();
+            _inventorySystem = SystemsManager.Get<IInventorySystem>();
         }
         
         private void Awake()
@@ -66,6 +71,7 @@ namespace Player
             _playerHealth.Init(_playerAnimator);
             _playerDeath.Init(_playerAnimator, _playerHealth);
             _playerShooting.Init(_playerAim, Bullets);
+            _pickUp.Init(_inventorySystem);
         }
         
         private void Start()

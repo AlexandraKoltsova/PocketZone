@@ -41,7 +41,7 @@ namespace Infrastructure.Factory
             return spawner;
         }
         
-        public GameObject CreateCollectibleHolder(Vector2 at)
+        public GameObject CreateLootHolder(Vector2 at)
         {
             GameObject collectible = Instantiate(AssetsAddress.EmptyGameObjectPrefabPath, at);
             collectible.name = "CollectibleHolder";
@@ -50,9 +50,10 @@ namespace Infrastructure.Factory
         
         public GameObject CreateLoot(Vector2 at, Transform parent)
         {
-            return Instantiate(AssetsAddress.LootPrefabPath, at, parent);
+            GameObject loot = Instantiate(AssetsAddress.LootPrefabPath, at, parent);
+            return loot;
         }
-
+        
         private GameObject Instantiate(string prefabPath)
         {
             return _assets.Instantiate(prefabPath);

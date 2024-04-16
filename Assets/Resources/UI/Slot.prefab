@@ -382,6 +382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sprite: {fileID: 2038303306}
   _amountText: {fileID: 1891505825}
+  _slot: {fileID: 2038303304}
   _button: {fileID: 2395209419697172130}
 --- !u!1 &4379668562999039748
 GameObject:

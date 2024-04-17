@@ -17,3 +17,4 @@ MonoBehaviour:
   AimRadius: 4.5
   Damage: 10
   BulletSpeed: 8
+  BulletMaxCount: 100

@@ -54,8 +54,8 @@ namespace Infrastructure.States
             _playerSpawn.InitPlayer();
             _mutantSpawn.InitSpawner();
             _lootSpawn.InitLootHolder();
-            _inventory.InitInventory();
             _hudSpawn.InitHUD();
+            _inventory.InformUpdateViewInventory();
             
             CameraFollow(_playerSpawn.GetPlayer().transform);
         }

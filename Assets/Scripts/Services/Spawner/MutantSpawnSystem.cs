@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Infrastructure.Factory;
 using Logic;
 using Mutant;
+using Player;
 using Services.Randomizer;
 using Services.StaticData;
 using StaticData.Mutant;
@@ -43,7 +44,7 @@ namespace Services.Spawner
             
             foreach (GameObject mutant in _mutants)
             {
-                mutant.GetComponent<MutantDeath>().Happened += RelocateLoot;
+                mutant.GetComponent<MutantDeath>().Happened += MutantDead;
             }
         }
 
@@ -83,12 +84,20 @@ namespace Services.Spawner
                 .Construct(_mutantConfig.Damage, _mutantConfig.AttackCooldown, _mutantConfig.CLeavage, _mutantConfig.EffectiveDistance);
         }
         
+        private void MutantDead(Transform transform)
+        {
+            transform.GetComponent<NavMeshAgent>().speed = 0;
+            
+            RelocateLoot(transform);
+        }
+
         private void RelocateLoot(Transform transform)
         {
             int index = _random.RandomIndex(_loots.Count - 1);
             
             _loots[index].transform.position = transform.position;
             _loots[index].SetActive(true);
+            _loots.Remove(_loots[index]);
         }
     }
 }

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9a571580c8446493717f211e84ab64, type: 3}
   m_Name: AK-47
   m_EditorClassIdentifier: 
-  ItemType: 0
+  ItemType: 1
   EquipType: 1
   ID: 2
   Image: {fileID: 21300000, guid: 6532bc2c52f179142a7333cc0f5faeda, type: 3}
-  Prefab: {fileID: 0}
+  IsStackable: 0

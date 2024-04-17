@@ -1,6 +1,6 @@
 using System;
 
-namespace Data
+namespace Data.Player
 {
     [Serializable]
     public class PlayerStats
@@ -13,5 +13,8 @@ namespace Data
         
         public int Damage;
         public int BulletSpeed;
+        
+        public int BulletCurrent;
+        public int BulletMax;
     }
 }

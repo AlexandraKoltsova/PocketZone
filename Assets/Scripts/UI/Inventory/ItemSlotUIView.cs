@@ -12,6 +12,7 @@ namespace UI.Inventory
         [SerializeField] private GameObject _slot;
         [SerializeField] private Button _button;
 
+        public int ID;
         public event Action<ItemSlotUIView> OnClick; 
         
         public void Awake()

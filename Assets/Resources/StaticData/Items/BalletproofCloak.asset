@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9a571580c8446493717f211e84ab64, type: 3}
   m_Name: BalletproofCloak
   m_EditorClassIdentifier: 
-  ItemType: 1
+  ItemType: 2
   EquipType: 3
   ID: 11
   Image: {fileID: 21300000, guid: d811afb0d42fed140806f31df436fbda, type: 3}
-  Prefab: {fileID: 0}
   IsStackable: 1

@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9a571580c8446493717f211e84ab64, type: 3}
   m_Name: MilitaryHelmet
   m_EditorClassIdentifier: 
-  ItemType: 1
-  EquipType: 5
+  ItemType: 2
+  EquipType: 2
   ID: 12
   Image: {fileID: 21300000, guid: 1aa8d4e1c6a8e934595f9ab61f2bf8aa, type: 3}
-  Prefab: {fileID: 0}
   IsStackable: 1

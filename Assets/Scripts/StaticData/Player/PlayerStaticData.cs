@@ -19,5 +19,8 @@ namespace StaticData.Player
 
         [Range(1, 10)]
         public int BulletSpeed;
+        
+        [Range(1, 1000)]
+        public int BulletMaxCount;
     }
 }

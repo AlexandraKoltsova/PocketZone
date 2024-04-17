@@ -1,4 +1,5 @@
 using Data;
+using Data.Player;
 using Infrastructure.AssetManagement;
 using Infrastructure.Factory;
 using Player;
@@ -36,8 +37,11 @@ namespace Services.Spawner
             _playerData.MaxHP = _playerConfig.MaxHP;
             _playerData.MoveSpeed = _playerConfig.MoveSpeed;
             _playerData.AimRadius = _playerConfig.AimRadius;
+            
             _playerData.Damage = _playerConfig.Damage;
             _playerData.BulletSpeed = _playerConfig.BulletSpeed;
+            _playerData.BulletCurrent = _playerConfig.BulletMaxCount;
+            _playerData.BulletMax = _playerConfig.BulletMaxCount;
         }
 
         public void InitPlayer()
@@ -61,6 +65,8 @@ namespace Services.Spawner
             _shootingPlayer = _playerGameObject.GetComponent<PlayerShooting>();
             _shootingPlayer.Damage = _playerData.Damage;
             _shootingPlayer.BulletSpeed = _playerData.BulletSpeed;
+            _shootingPlayer.Current = _playerData.BulletCurrent;
+            _shootingPlayer.Max = _playerData.BulletMax;
         }
 
         public GameObject GetPlayer()
@@ -76,6 +82,8 @@ namespace Services.Spawner
             _playerData.AimRadius = _aimPlayer.AimRadius;
             _playerData.Damage = _shootingPlayer.Damage;
             _playerData.BulletSpeed = _shootingPlayer.BulletSpeed;
+            _playerData.BulletCurrent = _shootingPlayer.Current;
+            _playerData.BulletMax = _shootingPlayer.Max;
             
             var json = JsonUtility.ToJson(_playerData);
             
@@ -101,6 +109,8 @@ namespace Services.Spawner
             _playerData.AimRadius = data.AimRadius;
             _playerData.Damage = data.Damage;
             _playerData.BulletSpeed = data.BulletSpeed;
+            _playerData.BulletCurrent = data.BulletCurrent;
+            _playerData.BulletMax = data.BulletMax;
         }
     }
 }

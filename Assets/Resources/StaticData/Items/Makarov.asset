@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9a571580c8446493717f211e84ab64, type: 3}
   m_Name: Makarov
   m_EditorClassIdentifier: 
-  ItemType: 0
+  ItemType: 1
   EquipType: 1
   ID: 1
   Image: {fileID: 21300000, guid: 1b4696d341b6ec443b4e499361de0675, type: 3}
-  Prefab: {fileID: 0}
   IsStackable: 0

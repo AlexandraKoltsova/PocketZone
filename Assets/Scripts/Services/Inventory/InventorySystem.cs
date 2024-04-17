@@ -6,7 +6,6 @@ using Data.Inventory;
 using Infrastructure.AssetManagement;
 using Logic.Inventory;
 using Services.SaveLoad;
-using Services.Spawner;
 using Services.StaticData;
 using StaticData.Inventory;
 using UnityEngine;
@@ -16,7 +15,7 @@ namespace Services.Inventory
     public class InventorySystem : IInventorySystem, ILoadSystem
     {
         public string SaveKey { get; } = AssetsAddress.InventorySaveKey;
-        
+
         private List<ItemData> _inventoryItemsData = new List<ItemData>(12);
         private List<ItemConfig> _itemConfigs = new List<ItemConfig>();
         private InventoryData _inventoryData;
@@ -24,20 +23,26 @@ namespace Services.Inventory
         private InventoryItemsSaveData _inventoryItemsSaveData;
         private int _inventorySize = 12;
 
-        private IHUDSpawnSystem _hudSpawn;
         private IStaticDataSystem _staticData;
 
         public event Action<Dictionary<int, ItemData>> OnInventoryUpdate;
+        public event Action<ItemData> OnItemEquip;
 
         public InventorySystem()
         {
-            _hudSpawn = SystemsManager.Get<IHUDSpawnSystem>();
             _staticData = SystemsManager.Get<IStaticDataSystem>();
             _inventoryData = new InventoryData();
             _itemConfigs = _staticData.GetItemConfigs();
+
+            InitInventory();
         }
 
-        public void InitInventory()
+        public void InformUpdateViewInventory()
+        {
+            OnInventoryUpdate?.Invoke(GetAllSlotState());
+        }
+
+        private void InitInventory()
         {
             for (int i = 0; i < _inventorySize; i++)
             {
@@ -45,27 +50,85 @@ namespace Services.Inventory
                 itemData.SetEmpty();
                 _inventoryItemsData.Add(itemData);
             }
+        }
 
-            InformAboutChange();
+        public void EquipItem(int indexSlot, ItemData itemData)
+        {
+            OnItemEquip?.Invoke(itemData);
+            
+            _inventoryItemsData[indexSlot].SetEmpty();
+            InformUpdateViewInventory();
+        }
+
+        public void UseItem(int indexSlot, ItemData itemData)
+        {
+            Debug.Log("UseItem");
+        }
+
+        public void RemoveItem(int indexSlot)
+        {
+            _inventoryItemsData[indexSlot].SetEmpty();
+            InformUpdateViewInventory();
+        }
+
+        public int AddItem(ItemData itemData, int amount)
+        {
+            ItemConfig item = _itemConfigs.FirstOrDefault(d => d.ID == itemData.Id);
+            if (item == null) return amount;
+
+            int remains = AddItem(item, amount);
+            return remains;
         }
 
         private int AddItem(ItemConfig itemConfig, int amount)
         {
             if (itemConfig.IsStackable == false)
             {
-                for (int i = 0; i < _inventoryItemsData.Count; i++)
+                foreach (ItemData itemData in _inventoryItemsData)
                 {
                     while (amount > 0 && IsInventorHasEmptySlot())
                     {
                         amount -= AddItemToFirstFreeSlot(itemConfig, 1);
                     }
+                    
                     InformAboutChange();
                     return amount;
                 }
             }
-            
-            amount = AddStackableItem(itemConfig, amount);
+            else
+            {
+                amount = AddStackableItem(itemConfig, amount);
+            }
+
             InformAboutChange();
+            return amount;
+        }
+
+        private int AddItemToFirstFreeSlot(ItemConfig itemConfig, int amount)
+        {
+            ItemData itemData = _inventoryItemsData.FirstOrDefault(d => d.IsReserved == false);
+            if (itemData == null) return 0;
+
+            itemData.SetData(itemConfig);
+            itemData.ChangeAmount(amount);
+            return amount;
+        }
+
+        private int AddStackableItem(ItemConfig itemConfig, int amount)
+        {
+            foreach (var itemData in _inventoryItemsData.Where(itemData => itemData.Id == itemConfig.ID))
+            {
+                itemData.ChangeAmount(amount);
+                InformAboutChange();
+                return 0;
+            }
+
+            while (amount > 0 && IsInventorHasEmptySlot())
+            {
+                amount--;
+                AddItemToFirstFreeSlot(itemConfig, amount);
+            }
+
             return amount;
         }
 
@@ -74,45 +137,14 @@ namespace Services.Inventory
             return _inventoryItemsData.Any(item => !item.IsReserved);
         }
 
-        private int AddItemToFirstFreeSlot(ItemConfig itemConfig, int amount)
+        private Dictionary<int, ItemData> GetAllSlotState()
         {
-            ItemData itemData = _inventoryItemsData.FirstOrDefault(d => d.IsReserved == false);
-            if (itemData == null) return 0;
-            
-            itemData.SetData(itemConfig);
-            itemData.ChangeAmount(amount);
-            return amount;
-        }
+            Dictionary<int, ItemData> returnValue = new Dictionary<int, ItemData>();
 
-        private int AddStackableItem(ItemConfig itemConfig, int amount)
-        {
             for (int i = 0; i < _inventoryItemsData.Count; i++)
-            {
-                if (_inventoryItemsData[i].IsReserved) continue;
+                returnValue[i] = _inventoryItemsData[i];
 
-                if (_inventoryItemsData[i].Id == itemConfig.ID)
-                {
-                    _inventoryItemsData[i].ChangeAmount(amount);
-                    InformAboutChange();
-                    return 0;
-                }
-            }
-
-            while (amount > 0 && IsInventorHasEmptySlot())
-            {
-                amount--;
-                AddItemToFirstFreeSlot(itemConfig, amount);
-            }
-            return amount;
-        }
-
-        public int AddItem(ItemData itemData, int amount)
-        {
-            ItemConfig item = _itemConfigs.FirstOrDefault(d => d.ID == itemData.Id);
-            if(item == null) return amount;
-            
-            int remains = AddItem(item, amount);
-            return remains;
+            return returnValue;
         }
 
         private Dictionary<int, ItemData> GetCurrentSlotState()
@@ -122,28 +154,15 @@ namespace Services.Inventory
             for (int i = 0; i < _inventoryItemsData.Count; i++)
             {
                 if (!_inventoryItemsData[i].IsReserved) continue;
-                
                 returnValue[i] = _inventoryItemsData[i];
             }
+
             return returnValue;
         }
 
         private void InformAboutChange()
         {
             OnInventoryUpdate?.Invoke(GetCurrentSlotState());
-        }
-
-
-        public void EquipItem(int itemConfigID)
-        {
-        }
-
-        public void UseItem(int itemConfigID)
-        {
-        }
-
-        public void RemoveItem(int itemConfigID)
-        {
         }
 
         public SaveData GetSaveData()
@@ -154,18 +173,18 @@ namespace Services.Inventory
                 inventoryItemsSaveData.Id = itemData.Id;
                 inventoryItemsSaveData.Amount = itemData.Amount;
                 inventoryItemsSaveData.IsReserved = itemData.IsReserved;
-                
+
                 _inventoryData.InventoryItems.Add(inventoryItemsSaveData);
             }
-            
+
             var json = JsonUtility.ToJson(_inventoryData);
-            
+
             var data = new SaveData
             {
                 Key = AssetsAddress.InventorySaveKey,
                 Json = json
             };
-            
+
             return data;
         }
 
@@ -175,15 +194,16 @@ namespace Services.Inventory
 
             var data = JsonUtility.FromJson<InventoryData>(saveData.Json);
             if (data == null) return;
-            _inventoryData = data;
 
-            foreach (var inventoryItems in _inventoryData.InventoryItems)
+            foreach (var inventoryItems in data.InventoryItems)
             {
                 ItemConfig itemConfig = _itemConfigs.FirstOrDefault(d => d.ID == inventoryItems.Id);
-                if(itemConfig == null) return;
-                
+                if (itemConfig == null) return;
+
                 AddItem(itemConfig, inventoryItems.Amount);
             }
+
+            InformUpdateViewInventory();
         }
     }
 }

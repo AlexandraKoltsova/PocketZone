@@ -1,8 +1,10 @@
 using Infrastructure.Factory;
 using Logic;
 using Services.Inventory;
+using StaticData.Player;
 using UI.HUD;
 using UnityEngine;
+using ContextMenu = UI.HUD.ContextMenu;
 
 namespace Services.Spawner
 {
@@ -12,6 +14,7 @@ namespace Services.Spawner
         private IPlayerSpawnSystem _playerSpawn;
         private IInventorySystem _inventorySystem;
         
+        private PlayerStaticData _playerConfig;
         private GameObject _hudGameObject;
         
         public HUDSpawnSystem()
@@ -28,6 +31,10 @@ namespace Services.Spawner
             HealthController healthController = _hudGameObject.GetComponent<HealthController>();
             healthController.Construct(_playerSpawn.GetPlayer().GetComponent<IHealth>());
             healthController.UpdateHealthBar();
+            
+            ProjectileView projectileView = _hudGameObject.GetComponent<ProjectileView>();
+            projectileView.Construct(_playerSpawn.GetPlayer().GetComponent<IProjectile>());
+            projectileView.UpdateProjectile();
             
             InventoryView inventoryView = _hudGameObject.GetComponentInChildren<InventoryView>();
             inventoryView.Construct(_inventorySystem);

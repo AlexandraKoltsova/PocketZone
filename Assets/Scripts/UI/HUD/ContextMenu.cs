@@ -1,8 +1,7 @@
 using Logic.Inventory;
-using Services;
 using Services.Inventory;
-using StaticData.Inventory;
 using TMPro;
+using UI.Inventory;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,27 +13,33 @@ namespace UI.HUD
         [SerializeField] private Button _dropButton;
         [SerializeField] private TMP_Text _actionText;
         
-        private ItemConfig _itemConfig;
         private IInventorySystem _inventorySystem;
+        
+        private ItemData _itemData;
+        private int _idSlot;
 
-        private void Awake()
+        public void Construct(IInventorySystem inventorySystem)
         {
-            _inventorySystem = AllServices.Container.Single<IInventorySystem>();
-        }
-
-        private void Start()
-        {
+            _inventorySystem = inventorySystem;
+            
             _actionButton.onClick.AddListener(OnActionButton);
             _dropButton.onClick.AddListener(OnDropButton);
+
+            Hide();
         }
 
-        public void Show(ItemConfig itemConfig)
+        public void Show(ItemSlotUIView itemSlotView)
         {
             gameObject.SetActive(true);
-            _itemConfig = itemConfig;
+
+            transform.position = itemSlotView.transform.position;
+            _idSlot = itemSlotView.ID;
+            _itemData = itemSlotView.ItemData;
             
-            switch (_itemConfig.ItemType)
+            switch (_itemData.ItemType)
             {
+                case ItemType.None:
+                    return;
                 case ItemType.Weapon:
                 case ItemType.Armor:
                     _actionText.text = "EQUIP";
@@ -52,14 +57,16 @@ namespace UI.HUD
 
         private void OnActionButton()
         {
-            switch (_itemConfig.ItemType)
+            switch (_itemData.ItemType)
             {
+                case ItemType.None:
+                    return;
                 case ItemType.Weapon:
                 case ItemType.Armor:
-                    _inventorySystem.EquipItem(_itemConfig.ID);
+                    _inventorySystem.EquipItem(_idSlot, _itemData);
                     break;
                 case ItemType.Food:
-                    _inventorySystem.UseItem(_itemConfig.ID);
+                    _inventorySystem.UseItem(_idSlot, _itemData);
                     break;
             }
             
@@ -68,7 +75,7 @@ namespace UI.HUD
 
         private void OnDropButton()
         {
-            _inventorySystem.RemoveItem(_itemConfig.ID);
+            _inventorySystem.RemoveItem(_idSlot);
             Hide();
         }
     }

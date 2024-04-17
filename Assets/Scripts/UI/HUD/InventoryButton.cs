@@ -9,6 +9,7 @@ namespace UI.HUD
 
         protected void Start()
         {
+            _inventoryView.Show();
             _inventoryView.Hide();
             _isDisable = true;
         }
